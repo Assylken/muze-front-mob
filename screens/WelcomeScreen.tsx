@@ -15,7 +15,7 @@ type IWelcomeScreen = NativeStackScreenProps<
 const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
   return (
     <SafeAreaView
-      style={tw`flex flex-col flex-1 items-center justify-start px-4 relative`}
+      style={tw`flex flex-col flex-1 items-center justify-start px-4 relative bg-white`}
     >
       <Image
         style={tw`w-64 h-64`}
@@ -42,7 +42,7 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
         <Button
           containerStyle="flex-1 mr-2"
           style="bg-[#5C25F9]"
-          textStyle="text-white"
+          textStyle="text-white font-bold"
           onPress={() => navigation.navigate("LoginScreen")}
         >
           Login
@@ -50,7 +50,7 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
         <Button
           containerStyle="flex-1 ml-2"
           style="bg-[#0000]"
-          textStyle="text-black"
+          textStyle="text-black font-bold"
           onPress={() => navigation.navigate("RegisterScreen")}
         >
           Register

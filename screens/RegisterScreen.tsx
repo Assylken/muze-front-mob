@@ -21,7 +21,7 @@ type IRegisterScreen = NativeStackScreenProps<
 
 const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <View
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     opacity: 0.4,
-    marginTop: 20,
+    marginTop: 15,
     paddingHorizontal: 20,
     borderColor: "#5C25F9",
     borderRadius: 20,

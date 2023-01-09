@@ -61,7 +61,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <View
@@ -75,7 +75,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={{ flex: 1, width: "85%", marginTop: "-10%" }}>
+        <View style={{ flex: 1, width: "85%", marginTop: "-10%", marginBottom: "-10%" }}>
           <View style={styles.input}>
             <TextInput
               style={styles.textInput}
@@ -107,7 +107,6 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
         <View
           style={tw`flex flex-col items-center justify-between w-full pb-10 px-8`}
         >
-          <Text>Error: {errorMsg}</Text>
           <TouchableOpacity style={styles.button} onPress={login}>
             <Text
               style={{
@@ -122,6 +121,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
               Sign in with Web3Auth
             </Text>
           </TouchableOpacity>
+          <Text>Error: {errorMsg}</Text>
         </View>
 
         <View style={{ flex: 1, width: "85%", marginTop: -30 }}>
@@ -147,7 +147,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
             style={{
               alignSelf: "center",
               color: "#1C1B1B",
-              paddingVertical: 30,
+              paddingVertical: 25,
               fontSize: 12,
             }}
           >
