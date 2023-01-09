@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
-import { Text, View, Image, TextInput, StyleSheet } from "react-native";
+import { Text, View, Image } from "react-native";
 import { AuthStackParamList } from "../types";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,7 +14,9 @@ type IWelcomeScreen = NativeStackScreenProps<
 
 const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex flex-col flex-1 items-center justify-start px-4 relative`}>
+    <SafeAreaView
+      style={tw`flex flex-col flex-1 items-center justify-start px-4 relative bg-white`}
+    >
       <Image
         style={tw`w-64 h-64`}
         source={require("../assets/images/logo.png")}
@@ -40,7 +42,7 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
         <Button
           containerStyle="flex-1 mr-2"
           style="bg-[#5C25F9]"
-          textStyle="text-white"
+          textStyle="text-white font-bold"
           onPress={() => navigation.navigate("LoginScreen")}
         >
           Login
@@ -48,7 +50,7 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
         <Button
           containerStyle="flex-1 ml-2"
           style="bg-[#0000]"
-          textStyle="text-black"
+          textStyle="text-black font-bold"
           onPress={() => navigation.navigate("RegisterScreen")}
         >
           Register

@@ -10,7 +10,6 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useState } from "react";
-import Button from "../components/Forms/Button";
 import { AuthStackParamList } from "../types";
 import tw from "twrnc";
 import Web3Auth, {
@@ -36,7 +35,7 @@ const resolvedRedirectUrl =
     : Linking.createURL("modal", { scheme: scheme });
 
 const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
-  const [key, setKey] = useState("");
+  //const [key, setKey] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const login = async () => {
     try {
@@ -61,7 +60,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <View
@@ -75,7 +74,14 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={{ flex: 1, width: "85%", marginTop: "-10%" }}>
+        <View
+          style={{
+            flex: 1,
+            width: "85%",
+            marginTop: "-10%",
+            marginBottom: "-10%",
+          }}
+        >
           <View style={styles.input}>
             <TextInput
               style={styles.textInput}
@@ -107,7 +113,6 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
         <View
           style={tw`flex flex-col items-center justify-between w-full pb-10 px-8`}
         >
-          <Text>Error: {errorMsg}</Text>
           <TouchableOpacity style={styles.button} onPress={login}>
             <Text
               style={{
@@ -122,12 +127,13 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
               Sign in with Web3Auth
             </Text>
           </TouchableOpacity>
+          <Text>Error: {errorMsg}</Text>
         </View>
 
         <View style={{ flex: 1, width: "85%", marginTop: -30 }}>
           <TouchableOpacity
             style={styles.button}
-            // onPress={() => navigation.navigate("HomeScreen")}
+            onPress={() => navigation.navigate("HomeScreen")}
           >
             <Text
               style={{
@@ -147,7 +153,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
             style={{
               alignSelf: "center",
               color: "#1C1B1B",
-              paddingVertical: 30,
+              paddingVertical: 25,
               fontSize: 12,
             }}
           >
@@ -164,7 +170,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
           >
             <View style={{ flex: 1, alignItems: "center" }}>
               <TouchableOpacity
-              // onPress={() => navigation.navigate("HomeScreen")}
+                onPress={() => navigation.navigate("HomeScreen")}
               >
                 <Image
                   source={require("../assets/images/google-icon.png")}
@@ -175,7 +181,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
 
             <View style={{ flex: 1, alignItems: "center" }}>
               <TouchableOpacity
-              // onPress={() => navigation.navigate("HomeScreen")}
+                onPress={() => navigation.navigate("HomeScreen")}
               >
                 <Image
                   source={require("../assets/images/apple-icon.png")}

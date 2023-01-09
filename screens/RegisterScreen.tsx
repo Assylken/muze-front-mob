@@ -21,7 +21,7 @@ type IRegisterScreen = NativeStackScreenProps<
 
 const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <View
@@ -99,9 +99,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
             }}
           >
             <View style={{ flex: 1, alignItems: "center" }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}
-              >
+              <TouchableOpacity>
                 <Image
                   source={require("../assets/images/google-icon.png")}
                   style={{ height: 27, width: 27 }}
@@ -110,9 +108,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
             </View>
 
             <View style={{ flex: 1, alignItems: "center" }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}
-              >
+              <TouchableOpacity>
                 <Image
                   source={require("../assets/images/apple-icon.png")}
                   style={{ height: 27, width: 22 }}
@@ -183,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     opacity: 0.4,
-    marginTop: 20,
+    marginTop: 15,
     paddingHorizontal: 20,
     borderColor: "#5C25F9",
     borderRadius: 20,

@@ -4,5 +4,6 @@ export type AuthStackParamList = {
   WelcomeScreen: undefined;
   LoginScreen: undefined;
   RegisterScreen: undefined;
-  HomeScreen: State;
+  HomeScreen?: State;
+  ProfilePage: undefined;
 };
