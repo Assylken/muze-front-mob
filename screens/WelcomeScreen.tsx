@@ -14,9 +14,7 @@ type IWelcomeScreen = NativeStackScreenProps<
 
 const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
   return (
-    <SafeAreaView
-      style={tw`flex flex-col flex-1 items-center justify-start px-4 relative`}
-    >
+    <SafeAreaView style={tw`flex flex-col flex-1 items-center justify-start px-4 relative`}>
       <Image
         style={tw`w-64 h-64`}
         source={require("../assets/images/logo.png")}
