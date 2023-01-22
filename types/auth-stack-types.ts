@@ -4,6 +4,16 @@ export type AuthStackParamList = {
   WelcomeScreen: undefined;
   LoginScreen: undefined;
   RegisterScreen: undefined;
-  HomeScreen?: State;
-  ProfilePage: undefined;
+};
+
+export type MainStackParamList = {
+  HomeScreen: undefined;
+  ProfileScreen: undefined;
+};
+
+export type BottomNavigationStack = {
+  HomeScreen: undefined;
+  ExploreScreen: undefined;
+  FavouritesScreen: undefined;
+  NotificationScreen: undefined;
 };

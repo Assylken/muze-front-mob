@@ -12,52 +12,26 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC, useState } from "react";
 import { AuthStackParamList } from "../types";
 import tw from "twrnc";
-import Web3Auth, {
-  LOGIN_PROVIDER,
-  OPENLOGIN_NETWORK,
-  State,
-} from "@web3auth/react-native-sdk";
-import Constants, { AppOwnership } from "expo-constants";
-import * as Linking from "expo-linking";
-import * as WebBrowser from "expo-web-browser";
-import { Buffer } from "buffer";
+import { useAppDispatch } from "../redux/hooks";
+import { login } from "../redux/slices/auth";
 
 type ILoginScreen = NativeStackScreenProps<AuthStackParamList, "LoginScreen">;
 
-global.Buffer = global.Buffer || Buffer;
-
-const scheme = "home"; // Or your desired app redirection scheme
-
-const resolvedRedirectUrl =
-  Constants.appOwnership == AppOwnership.Expo ||
-  Constants.appOwnership == AppOwnership.Guest
-    ? Linking.createURL("modal", {})
-    : Linking.createURL("modal", { scheme: scheme });
-
 const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
-  //const [key, setKey] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const login = async () => {
-    try {
-      const web3auth = new Web3Auth(WebBrowser, {
-        clientId:
-          "BIdR1EgVXYMX1fl7mze1aJUUM94XAypxDbS57LgpNwXb2hBqVQrS85m6wlADtTx_4tyQZxTbTowqLN7ZojAx_UM",
-        network: OPENLOGIN_NETWORK.TESTNET, // or other networks
-      });
-      const state = await web3auth
-        .login({
-          loginProvider: LOGIN_PROVIDER.GOOGLE,
-          redirectUrl: resolvedRedirectUrl,
-        })
-        .then((res: State) => {
-          console.log(res);
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
+  const handleLogin = async () => {
+    setUsernameOrEmail((prev) => prev.toLowerCase());
+    console.log(usernameOrEmail);
+    const payload = {
+      usernameOrEmail,
+      password,
+    };
+    console.log(payload);
 
-          navigation.navigate("HomeScreen", res);
-        });
-    } catch (e) {
-      console.error(e);
-      setErrorMsg(String(e));
-    }
+    dispatch(login(payload));
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
@@ -87,6 +61,8 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
               style={styles.textInput}
               placeholder="Enter Email"
               placeholderTextColor="#5C25F9"
+              value={usernameOrEmail}
+              onChangeText={(e) => setUsernameOrEmail(e)}
             />
           </View>
           <View style={styles.input}>
@@ -95,6 +71,8 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
               secureTextEntry={true}
               placeholder="Password"
               placeholderTextColor="#5C25F9"
+              value={password}
+              onChangeText={(e) => setPassword(e)}
             />
           </View>
           <Text
@@ -110,31 +88,8 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
           </Text>
         </View>
 
-        <View
-          style={tw`flex flex-col items-center justify-between w-full pb-10 px-8`}
-        >
-          <TouchableOpacity style={styles.button} onPress={login}>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontWeight: "bold",
-                textShadowColor: "rgba(0, 0, 0, 0.25)",
-                textShadowOffset: { width: 0, height: 4 },
-                textShadowRadius: 4,
-              }}
-            >
-              Sign in with Web3Auth
-            </Text>
-          </TouchableOpacity>
-          <Text>Error: {errorMsg}</Text>
-        </View>
-
         <View style={{ flex: 1, width: "85%", marginTop: -30 }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("HomeScreen")}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text
               style={{
                 color: "white",

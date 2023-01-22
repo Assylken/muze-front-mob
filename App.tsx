@@ -1,13 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import NavContainer from './components/NavContainer';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import NavContainer from "./components/NavContainer";
+import store from "./redux/store";
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavContainer />
-      <StatusBar style="auto" />
+      <Provider store={store}>
+        <NavContainer />
+        <StatusBar style="auto" />
+      </Provider>
     </SafeAreaProvider>
   );
 }

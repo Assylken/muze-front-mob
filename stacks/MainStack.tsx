@@ -1,23 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
-import ProfilePage from "../screens/ProfilePage";
-import { AuthStackParamList } from "../types";
+import ProfileScreen from "../screens/ProfileScreen";
+import { MainStackParamList } from "../types";
 
-const Stack = createNativeStackNavigator<AuthStackParamList>();
+const Stack = createNativeStackNavigator<MainStackParamList>();
 
 export default function MainStack() {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="ProfileScreen">
       <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ProfilePage"
-        component={ProfilePage}
+        name="ProfileScreen"
+        component={ProfileScreen}
         options={{
           headerShown: false,
         }}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import { FC } from "react";
 
 import { AuthStackParamList } from "../types";
 import tw from "twrnc";
+import { useAppDispatch } from "../redux/hooks";
+import { register } from "../redux/slices/auth";
 
 type IRegisterScreen = NativeStackScreenProps<
   AuthStackParamList,
@@ -20,6 +22,21 @@ type IRegisterScreen = NativeStackScreenProps<
 >;
 
 const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
+  const [errorMsg, setErrorMsg] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
+  const handleRegister = async () => {
+    const payload = {
+      username,
+      email,
+      password,
+    };
+    console.log(payload);
+
+    dispatch(register(payload));
+  };
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <View style={styles.container}>
@@ -39,8 +56,10 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
           <View style={styles.input}>
             <TextInput
               style={styles.textInput}
-              placeholder="Enter Full Name"
+              placeholder="Enter username"
               placeholderTextColor="#5C25F9"
+              value={username}
+              onChangeText={(e) => setUsername(e)}
             />
           </View>
           <View style={styles.input}>
@@ -48,6 +67,8 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
               style={styles.textInput}
               placeholder="Enter Email"
               placeholderTextColor="#5C25F9"
+              value={email}
+              onChangeText={(e) => setEmail(e)}
             />
           </View>
           <View style={styles.input}>
@@ -56,15 +77,14 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
               secureTextEntry={true}
               placeholder="Password"
               placeholderTextColor="#5C25F9"
+              value={password}
+              onChangeText={(e) => setPassword(e)}
             />
           </View>
         </View>
 
         <View style={{ flex: 1, width: "85%", marginTop: -30 }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("HomeScreen")}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
             <Text
               style={{
                 color: "white",

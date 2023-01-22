@@ -1,4 +1,4 @@
-import { AuthStackParamList } from "../types";
+import { AuthStackParamList, MainStackParamList } from "../types";
 import { View, Text, StyleSheet, Image } from "react-native";
 import React, { FC } from "react";
 import tw from "twrnc";
@@ -6,12 +6,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Forms/Button";
 import { Ionicons, SimpleLineIcons, FontAwesome } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { logout } from "../redux/slices/auth";
+import { useAppDispatch } from "../redux/hooks";
 
-type IProfilePage = NativeStackScreenProps<AuthStackParamList, "ProfilePage">;
+type IProfileScreen = NativeStackScreenProps<
+  MainStackParamList,
+  "ProfileScreen"
+>;
 
-const ProfilePage: FC<IProfilePage> = ({ navigation }) => {
+const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    dispatch(logout());
+  };
   return (
-    <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
+    <SafeAreaView style={tw`flex flex-1  flex-col bg-white`}>
       <View style={tw`flex flex-row h-48 px-10 pt-15`}>
         <View style={tw``}>
           <Image
@@ -94,6 +103,12 @@ const ProfilePage: FC<IProfilePage> = ({ navigation }) => {
           </View>
         </View>
       </View>
+
+      <View style={tw`pt-4 mx-6`}>
+        <Button textStyle="text-white font-bold" onPress={handleLogout}>
+          Log out
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };
@@ -123,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfilePage;
+export default ProfileScreen;
