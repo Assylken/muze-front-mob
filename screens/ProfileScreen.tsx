@@ -40,6 +40,7 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
         containerStyle="flex mr-2 px-8"
         style="bg-[#fff] border-2 border-[#5C25F9] mb-5"
         textStyle="text-[#5C25F9] font-bold text-lg"
+        
       >
         Edit Profile
       </Button>
@@ -131,9 +132,6 @@ const styles = StyleSheet.create({
     height: "90%",
     margin: 8,
     borderRadius: 20,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 4,
     backgroundColor: "#fff",
   },
 });
