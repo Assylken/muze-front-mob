@@ -6,6 +6,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BottomNav from "../components/Forms/BottomNav";
 import Button from "../components/Forms/Button";
 import { AntDesign, Ionicons, SimpleLineIcons, FontAwesome } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+
 
 type IProfilePage = NativeStackScreenProps<
 AuthStackParamList, 
@@ -14,8 +16,8 @@ AuthStackParamList,
 const ProfilePage: FC<IProfilePage> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
-      <View style={tw`flex flex-row h-48 px-10 pt-15`}>
-        <View style={tw``}>
+      <View style={tw`flex flex-row h-42 px-10 pt-15`}>
+        <View>
           <Image
                 style={tw`w-20 h-20 rounded-full`}
                 source={require("../assets/images/profile.jpg")
@@ -32,9 +34,9 @@ const ProfilePage: FC<IProfilePage> = ({ navigation }) => {
       </View>
       <Button
       containerStyle="flex mr-2 px-8"
-      style="bg-[#fff] border-2 border-[#5C25F9] mb-5"
+      style="bg-[#fff] border-2 border-[#5C25F9] mb-3"
       textStyle="text-[#5C25F9] font-bold text-lg"
-      // onPress={() => navigation.navigate("LoginScreen")}
+      onPress={() => navigation.navigate("EditProfileScreen")}
       >
         Edit Profile
       </Button>
@@ -96,6 +98,52 @@ const ProfilePage: FC<IProfilePage> = ({ navigation }) => {
         </View>
         
       </View>
+      <View style={styles.payment}>
+        <View style={tw`w-36 items-center`}>
+          <Text style={tw`font-bold text-2xl text-[#43B8AA]`}>Individual</Text>
+          <Text style={tw`-mt-1`}>subscription plan</Text>
+          <LinearGradient
+          colors={['rgba(67, 184, 170, 1)', 'rgba(4, 248, 248, 1)']}
+          style={styles.gradient}>
+            <Text style={tw`font-bold drop-shadow-xl text-2xl text-[#fff] self-center m-2`}>500 тг</Text>
+          </LinearGradient>
+          <Text
+          //onPress={() => navigation.navigate()}
+          >Click to get...</Text>
+        </View>
+
+        <View style={tw`absolute right-0`}>
+        <Image
+                style={styles.image_style}
+                source={require("../assets/images/cloud_music.png")
+              }
+            />
+        </View>
+      </View>
+
+      <View style={styles.payment}>
+        <View style={tw`w-36 items-center`}>
+          <Text style={tw`font-bold text-2xl text-[#FF59C6]`}>Artist</Text>
+          <Text style={tw`-mt-1`}>subscription plan</Text>
+          <LinearGradient
+          colors={['rgba(234, 7, 157, 0.95)', 'rgba(253, 105, 203, 0.95)']}
+          style={styles.gradient}>
+            <Text style={tw`font-bold drop-shadow-xl text-2xl text-[#fff] self-center m-2`}>1000 тг</Text>
+          </LinearGradient>
+          <Text
+          //onPress={() => navigation.navigate()}
+          >Click to get...</Text>
+        </View>
+
+        <View style={tw`absolute right-0`}>
+        <Image
+                style={{height:126, width: 129, marginRight: 10}}
+                source={require("../assets/images/cloud_bitcoin.png")
+              }
+            />
+        </View>
+      </View>
+      
 
     </SafeAreaView>
   );
@@ -117,12 +165,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems:"center",
     height: "90%",
-    margin:8,
-    borderRadius: 20,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 4,
-    backgroundColor: "#fff",
+    margin:5,
+    borderRadius: 18,
+    backgroundColor: "#F9F9F9",
+  },
+  payment:{
+    marginTop: 15,
+    width: "85%",
+    alignSelf:"center",
+    backgroundColor: "#F9F9F9",
+    padding: 15,
+    borderRadius: 18,
+    height: 150,
+    flexDirection: "column",
+
+  },
+  image_style:{
+    width: 155,
+    height: 95,
+    margin: 10,
+    marginTop: 15,
+  },
+  gradient:{
+    height: 50,
+    width: 120,
+    borderRadius:20,
+    margin: 5,
+
   },
 });
 
