@@ -6,6 +6,7 @@ import ExploreScreen from "../screens/ExploreScreen";
 import FavouritesScreen from "../screens/FavouritesScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import MainStack from "./MainStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +43,7 @@ export default function BottomNavigate() {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={MainStack}
         options={{
           headerShown: false,
         }}

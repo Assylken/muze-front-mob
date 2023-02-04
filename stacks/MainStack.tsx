@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/HomeScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
+import InfoScreen from "../screens/InfoScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { MainStackParamList } from "../types";
 
@@ -11,6 +12,20 @@ export default function MainStack() {
       <Stack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EditProfileScreen"
+        component={EditProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="InfoScreen"
+        component={InfoScreen}
         options={{
           headerShown: false,
         }}
