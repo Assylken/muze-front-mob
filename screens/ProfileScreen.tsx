@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 120,
     borderRadius: 20,
-    margin: 5,
+    backgroundColor: "#fff",
   },
 });
 
