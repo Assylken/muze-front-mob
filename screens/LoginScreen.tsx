@@ -19,11 +19,12 @@ type ILoginScreen = NativeStackScreenProps<AuthStackParamList, "LoginScreen">;
 
 const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState("");
-  const [usernameOrEmail, setUsernameOrEmail] = useState("");
+  const [usernameOrEmailLower, setUsernameOrEmailLower] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const handleLogin = async () => {
-    setUsernameOrEmail((prev) => prev.toLowerCase());
+    console.log("HE");
+    const usernameOrEmail = usernameOrEmailLower.toLowerCase();
     console.log(usernameOrEmail);
     const payload = {
       usernameOrEmail,
@@ -61,8 +62,8 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
               style={styles.textInput}
               placeholder="Enter Email"
               placeholderTextColor="#5C25F9"
-              value={usernameOrEmail}
-              onChangeText={(e) => setUsernameOrEmail(e)}
+              value={usernameOrEmailLower}
+              onChangeText={(e) => setUsernameOrEmailLower(e)}
             />
           </View>
           <View style={styles.input}>
