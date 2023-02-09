@@ -1,6 +1,7 @@
 import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
 import tw from "twrnc";
+import PlayerLayout from "../components/Forms/PlayerLayout";
 
 const FavouritesScreen = () => {
   return (

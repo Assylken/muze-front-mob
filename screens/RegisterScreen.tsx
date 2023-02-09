@@ -10,7 +10,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
-
 import { AuthStackParamList } from "../types";
 import tw from "twrnc";
 import { useAppDispatch } from "../redux/hooks";

@@ -41,7 +41,6 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
       <View style={tw`flex flex-row justify-between w-full`}>
         <Button
           containerStyle="flex-1 mr-2"
-          style="bg-[#5C25F9]"
           textStyle="text-white font-bold"
           onPress={() => navigation.navigate("LoginScreen")}
         >

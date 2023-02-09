@@ -28,7 +28,7 @@ const Button: FC<IBUttonProps> = ({
       style={tw`${containerStyle ?? ""}`}
     >
       <View
-        style={tw`flex justify-center items-center bg-purple-700 rounded-2xl py-4 w-full ${
+        style={tw`flex justify-center items-center bg-[#5C25F9] rounded-2xl py-4 w-full ${
           style ?? ""
         }`}
       >
