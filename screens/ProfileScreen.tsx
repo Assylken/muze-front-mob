@@ -20,6 +20,7 @@ import {
   Ionicons,
   SimpleLineIcons,
   FontAwesome,
+  Foundation,
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -49,7 +50,7 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
               Anel Amanbekova
             </Text>
             <Text style={tw`font-medium	text-base`}>anelnjk@gmail.com</Text>
-            <Text style={tw`font-medium	text-base`}>8 707 818 00 00</Text>
+            <Text style={tw`font-medium	text-base`}>Qazaqstan</Text>
           </View>
         </View>
         <Button
@@ -61,7 +62,10 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
           Edit Profile
         </Button>
         <View style={styles.grid_cont}>
-          <View style={styles.custom_box}>
+          <TouchableOpacity
+            style={styles.custom_box}
+            onPress={() => navigation.navigate("FollowersScreen")}
+          >
             <View>
               <SimpleLineIcons
                 style={tw`text-3xl font-bold px-3`}
@@ -74,8 +78,8 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
               <Text style={tw`font-bold text-lg`}>55</Text>
               <Text style={tw`font-medium text-[#9098A3]`}>Followed</Text>
             </View>
-          </View>
-          <View style={styles.custom_box}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.custom_box}>
             <View>
               <SimpleLineIcons
                 style={tw`text-3xl font-bold px-3`}
@@ -88,24 +92,24 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
               <Text style={tw`font-bold text-lg`}>22</Text>
               <Text style={tw`font-medium text-[#9098A3]`}>Followers</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.grid_cont}>
           <View style={styles.custom_box}>
             <View>
-              <FontAwesome
+              <Foundation
+                name="sound"
                 style={tw`text-3xl font-bold px-3`}
-                name="heart"
                 size={24}
                 color="#FE3155"
               />
             </View>
             <View>
               <Text style={tw`font-bold text-lg`}>54</Text>
-              <Text style={tw`font-medium text-[#9098A3]`}>Likes</Text>
+              <Text style={tw`font-medium text-[#9098A3]`}>Streams</Text>
             </View>
           </View>
-          <View style={styles.custom_box}>
+          <TouchableOpacity style={styles.custom_box}>
             <View>
               <Ionicons
                 style={tw`text-3xl font-bold px-3`}
@@ -115,10 +119,10 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
               />
             </View>
             <View>
-              <Text style={tw`font-bold text-lg`}>3</Text>
+              <Text style={tw`font-bold text-lg`}>0</Text>
               <Text style={tw`font-medium text-[#9098A3]`}>Albums</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.payment}>
           <View style={tw`w-36 items-center`}>

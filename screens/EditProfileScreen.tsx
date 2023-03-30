@@ -35,9 +35,18 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
       <ScrollView style={tw` w-full`}>
-        <View style={tw`mt-8 self-center`}>
-          <Text style={tw`font-bold text-2xl`}>Edit Your Profile</Text>
-        </View>
+        <TouchableOpacity
+          style={tw`mt-8 ml-10 flex-row`}
+          onPress={() => navigation.navigate("ProfileScreen")}
+        >
+          <AntDesign
+            name="arrowleft"
+            size={25}
+            color="black"
+            style={tw`mr-5 self-center`}
+          />
+          <Text style={tw`font-bold text-2xl`}>Edit Profile</Text>
+        </TouchableOpacity>
         <View style={tw`items-center mt-8`}>
           <Image
             style={tw`w-30 h-30 rounded-full`}
@@ -94,7 +103,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
             <Ionicons name="settings-outline" size={24} color="#737373" />
             <Text
               style={tw`font-medium text-base text-[#737373] ml-3`}
-              // onPress={() => navigation.navigate()}
+              onPress={() => navigation.navigate("SettingsScreen")}
             >
               Settings
             </Text>

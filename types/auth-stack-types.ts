@@ -9,6 +9,8 @@ export type AuthStackParamList = {
 export type MainStackParamList = {
   ProfileScreen: undefined;
   EditProfileScreen: undefined;
+  SettingsScreen: undefined;
+  FollowersScreen: undefined;
 };
 
 export type InfoNavigationStack = {
