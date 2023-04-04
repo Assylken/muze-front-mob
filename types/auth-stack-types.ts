@@ -11,6 +11,7 @@ export type MainStackParamList = {
   EditProfileScreen: undefined;
   SettingsScreen: undefined;
   FollowersScreen: undefined;
+  FollowingScreen: undefined;
 };
 
 export type InfoNavigationStack = {

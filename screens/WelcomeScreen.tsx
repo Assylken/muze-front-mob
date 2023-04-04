@@ -24,14 +24,14 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
       <View style={tw`flex flex-row justify-between pb-20`}>
         <Text style={tw`font-bold text-[#5C25F9] text-3xl`}>Upload</Text>
         <AntDesign
-          style={tw`text-3xl font-bold shadow-xl `}
+          style={tw`text-3xl font-bold mt-1`}
           name="right"
           size={24}
           color="black"
         />
         <Text style={tw`font-bold text-[#56A9F4] text-3xl`}>Share</Text>
         <AntDesign
-          style={tw`text-3xl font-bold shadow-xl `}
+          style={tw`text-3xl font-bold mt-1`}
           name="right"
           size={24}
           color="black"

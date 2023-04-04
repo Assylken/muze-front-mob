@@ -4,6 +4,7 @@ import InfoScreen from "../screens/InfoScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import FollowersScreen from "../screens/FollowersScreen";
+import FollowingScreen from "../screens/FollowingScreen";
 import { MainStackParamList } from "../types";
 import InfoStack from "./InfoStack";
 
@@ -43,6 +44,13 @@ export default function MainStack() {
       <Stack.Screen
         name="FollowersScreen"
         component={FollowersScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="FollowingScreen"
+        component={FollowingScreen}
         options={{
           headerShown: false,
         }}

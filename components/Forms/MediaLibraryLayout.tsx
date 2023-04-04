@@ -12,10 +12,11 @@ import {
   TextInput,
 } from "react-native";
 import { Stack, Avatar } from "@react-native-material/core";
+import { Entypo, AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({});
 
-const UserList = () => {
+const MediaLibrary = () => {
   return (
     <View style={tw`flex-1`}>
       <FlatList
@@ -150,15 +151,51 @@ const UserList = () => {
           },
         ]}
         renderItem={({ item }) => (
-          <SafeAreaView style={tw`flex flex-1 bg-white w-90% self-center`}>
-            <TouchableOpacity
-              style={tw`flex-row border-b border-[#D3D3D3] mt-2`}
-            >
+          <SafeAreaView style={tw`flex flex-1 bg-white w-93% self-center`}>
+            <TouchableOpacity style={tw`flex-row mt-2`}>
               <Image
                 source={{ uri: item.photo }}
-                style={tw`w-10 h-10 rounded-full`}
+                style={tw`w-12 h-12 rounded-xl`}
               />
-              <Text style={tw`text-base p-3`}>{item.name}</Text>
+              <View style={tw`flex-col w-full `}>
+                <View style={tw`flex-row`}>
+                  <View style={tw`flex-col w-60% pl-5 pb-2`}>
+                    <Text style={tw`text-base font-semibold`}>
+                      {item.position}
+                    </Text>
+                    <Text>{item.name}</Text>
+                  </View>
+                  <View style={tw`flex-col w-20%`}>
+                    <View style={tw`flex-row-reverse`}>
+                      <TouchableOpacity style={tw`flex-row-reverse `}>
+                        <SimpleLineIcons
+                          name="options"
+                          size={16}
+                          color="black"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={tw`flex-row pt-2`}>
+                      <Entypo
+                        name="share"
+                        size={14}
+                        color="black"
+                        style={tw`ml-1 mt-1`}
+                      />
+                      <Text style={tw`ml-1`}>17</Text>
+                      <AntDesign
+                        name="playcircleo"
+                        size={14}
+                        color="black"
+                        style={tw`ml-1 mt-1`}
+                      />
+                      <Text style={tw`ml-1`}>122</Text>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={tw`bg-[#D3D3D3] h-0.2 w-80% ml-3`}></View>
+              </View>
             </TouchableOpacity>
           </SafeAreaView>
         )}
@@ -168,4 +205,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default MediaLibrary;

@@ -1,16 +1,16 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import React from "react";
 import tw from "twrnc";
-import PlayerLayout from "../components/Forms/PlayerLayout";
+import MediaLibrary from "../components/Forms/MediaLibraryLayout";
+import Button from "../components/Forms/Button";
+import PlaylistLayout from "./PlaylistLayout";
 
 const FavouritesScreen = () => {
   return (
-    <SafeAreaView
-      style={tw`flex flex-1 items-center justify-center px-4 bg-white`}
-    >
-      <View>
-        <Text>This is Favourites Screen</Text>
-      </View>
+    <SafeAreaView style={tw`flex flex-1 bg-white`}>
+      <ScrollView>
+        <MediaLibrary></MediaLibrary>
+      </ScrollView>
     </SafeAreaView>
   );
 };

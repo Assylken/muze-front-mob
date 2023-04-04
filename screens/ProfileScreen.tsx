@@ -64,7 +64,7 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
         <View style={styles.grid_cont}>
           <TouchableOpacity
             style={styles.custom_box}
-            onPress={() => navigation.navigate("FollowersScreen")}
+            onPress={() => navigation.navigate("FollowingScreen")}
           >
             <View>
               <SimpleLineIcons
@@ -76,10 +76,13 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
             </View>
             <View>
               <Text style={tw`font-bold text-lg`}>55</Text>
-              <Text style={tw`font-medium text-[#9098A3]`}>Followed</Text>
+              <Text style={tw`font-medium text-[#9098A3]`}>Following</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.custom_box}>
+          <TouchableOpacity
+            style={styles.custom_box}
+            onPress={() => navigation.navigate("FollowersScreen")}
+          >
             <View>
               <SimpleLineIcons
                 style={tw`text-3xl font-bold px-3`}
