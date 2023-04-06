@@ -5,11 +5,13 @@ import {
 } from "../types";
 import {
   View,
+  Animated,
   Text,
   StyleSheet,
   Image,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import React, { FC } from "react";
 import tw from "twrnc";
@@ -24,6 +26,9 @@ import {
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import * as Animatable from "react-native-animatable";
+
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type IProfileScreen = NativeStackScreenProps<
   MainStackParamList,
@@ -31,9 +36,22 @@ type IProfileScreen = NativeStackScreenProps<
 >;
 
 const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
-      <ScrollView style={tw` w-full`}>
+      <ScrollView
+        style={tw` w-full`}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={tw`flex flex-row h-42 px-10 pt-15`}>
           <View>
             <Image
@@ -53,6 +71,7 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
             <Text style={tw`font-medium	text-base`}>Qazaqstan</Text>
           </View>
         </View>
+
         <Button
           containerStyle="flex mr-2 px-8"
           style="bg-[#fff] border-2 border-[#5C25F9] mb-3"

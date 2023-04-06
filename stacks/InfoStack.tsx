@@ -3,7 +3,11 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import InfoScreen from "../screens/InfoScreen";
 import { Text, View, ScrollView, TouchableOpacity } from "react-native";
 import ContactUsScreen from "../screens/ContacUsScreen";
-import { InfoNavigationStack } from "../types";
+import {
+  AuthStackParamList,
+  MainStackParamList,
+  InfoNavigationStack,
+} from "../types";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {

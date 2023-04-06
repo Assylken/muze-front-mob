@@ -29,7 +29,7 @@ import InfoScreen from "./InfoScreen";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 
 type ISettingsScreen = NativeStackScreenProps<
-  InfoNavigationStack,
+  MainStackParamList,
   "SettingsScreen"
 >;
 

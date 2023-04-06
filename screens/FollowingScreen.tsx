@@ -1,4 +1,9 @@
 import {
+  AuthStackParamList,
+  BottomNavigationStack,
+  MainStackParamList,
+} from "../types";
+import {
   SectionList,
   StyleSheet,
   FlatList,
@@ -20,8 +25,15 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { Stack, Avatar } from "@react-native-material/core";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const FollowingScreen = () => {
+import * as Animatable from "react-native-animatable";
+
+type IFollowersScreen = NativeStackScreenProps<
+  MainStackParamList,
+  "FollowingScreen"
+>;
+const FollowingScreen: FC<IFollowingScreen> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex flex-1 bg-white`}>
       <TouchableOpacity
@@ -112,17 +124,23 @@ const FollowingScreen = () => {
                 "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6",
             },
           ]}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <SafeAreaView style={tw`flex flex-1 bg-white w-90% self-center`}>
-              <TouchableOpacity
-                style={tw`flex-row border-b border-[#D3D3D3] mt-2`}
+              <Animatable.View
+                animation="fadeInUp"
+                duration={900}
+                delay={index * 90}
               >
-                <Image
-                  source={{ uri: item.photo }}
-                  style={tw`w-10 h-10 rounded-full`}
-                />
-                <Text style={tw`text-base p-3`}>{item.name}</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={tw`flex-row border-b border-[#D3D3D3] mt-2`}
+                >
+                  <Image
+                    source={{ uri: item.photo }}
+                    style={tw`w-10 h-10 rounded-full`}
+                  />
+                  <Text style={tw`text-base p-3`}>{item.name}</Text>
+                </TouchableOpacity>
+              </Animatable.View>
             </SafeAreaView>
           )}
           keyExtractor={(item) => item.item}

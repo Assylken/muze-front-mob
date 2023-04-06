@@ -25,6 +25,7 @@ import {
 } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import InfoStack from "../stacks/InfoStack";
+import * as Animatable from "react-native-animatable";
 
 type IEditProfileScreen = NativeStackScreenProps<
   MainStackParamList,
@@ -90,7 +91,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
           </Button>
         </View>
         <View style={tw`flex-col mx-8`}>
-          <View style={tw`flex-row mt-2`}>
+          <View style={tw`flex-row mt-3`}>
             <Feather name="info" size={24} color="#737373" />
             <Text
               style={tw`font-medium text-base text-[#737373] ml-3`}
@@ -99,7 +100,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
               Info
             </Text>
           </View>
-          <View style={tw`flex-row mt-2`}>
+          <View style={tw`flex-row mt-3`}>
             <Ionicons name="settings-outline" size={24} color="#737373" />
             <Text
               style={tw`font-medium text-base text-[#737373] ml-3`}
@@ -108,7 +109,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
               Settings
             </Text>
           </View>
-          <View style={tw`flex-row mt-2`}>
+          <View style={tw`flex-row mt-3`}>
             <AntDesign name="logout" size={24} color="#5C25F9" />
             <Text
               style={tw`font-medium text-base text-[#5C25F9] ml-3`}

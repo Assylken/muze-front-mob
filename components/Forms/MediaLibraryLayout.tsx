@@ -10,13 +10,21 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Button,
 } from "react-native";
 import { Stack, Avatar } from "@react-native-material/core";
 import { Entypo, AntDesign, SimpleLineIcons } from "@expo/vector-icons";
+import Modal from "react-native-modal";
 
 const styles = StyleSheet.create({});
 
 const MediaLibrary = () => {
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <View style={tw`flex-1`}>
       <FlatList
@@ -153,6 +161,22 @@ const MediaLibrary = () => {
         renderItem={({ item }) => (
           <SafeAreaView style={tw`flex flex-1 bg-white w-93% self-center`}>
             <TouchableOpacity style={tw`flex-row mt-2`}>
+              {/* <Button title="Show modal" onPress={toggleModal} />
+              <Modal
+                transparent
+                presentationStyle="FormSheet"
+                isVisible={isModalVisible}
+                coverScreen={false}
+                backdropColor="gray"
+                onBackdropPress={() => setModalVisible(false)}
+                style={tw`bg-indigo-600 bg-opacity-25 p-10 m-10 w-60% h-30% `}
+              >
+                <View style={tw`bg-red h-12`}>
+                  <Text style={tw`text-white`}>Hello!</Text>
+                  <Button title="Hide modal" onPress={toggleModal} />
+                </View>
+              </Modal> */}
+
               <Image
                 source={{ uri: item.photo }}
                 style={tw`w-12 h-12 rounded-xl`}
