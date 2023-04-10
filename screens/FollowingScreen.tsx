@@ -127,7 +127,7 @@ const FollowingScreen: FC<IFollowingScreen> = ({ navigation }) => {
           renderItem={({ item, index }) => (
             <SafeAreaView style={tw`flex flex-1 bg-white w-90% self-center`}>
               <Animatable.View
-                animation="fadeInUp"
+                animation="fadeInRight"
                 duration={900}
                 delay={index * 90}
               >
