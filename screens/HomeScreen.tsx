@@ -124,7 +124,7 @@ const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex flex-1 bg-white p-5 items-center`}>
       <ScrollView style={tw` w-full`}>
-        <Text style={tw`font-bold text-2xl mt-4`}>New Albums</Text>
+        <Text style={tw`font-bold text-2xl mt-4 ml-3`}>New Albums</Text>
         <FlatList
           data={ALBUM_DATA}
           horizontal
@@ -141,7 +141,11 @@ const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
                     style={tw`w-36 h-36 object-fill rounded-2xl`}
                   />
                 </TouchableOpacity>
-                <Text style={tw`text-base pl-3`}>{item.title} </Text>
+                <Text
+                  style={tw`text-base font-medium pl-3 text-[#5C25F9] leading-4`}
+                >
+                  {item.title}{" "}
+                </Text>
                 <Text style={tw`text-base pl-3`}>{item.title} </Text>
               </Animatable.View>
             </View>
