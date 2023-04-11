@@ -22,6 +22,6 @@ export type InfoNavigationStack = {
 export type BottomNavigationStack = {
   HomeScreen: undefined;
   ExploreScreen: undefined;
-  FavouritesScreen: undefined;
+  LibraryScreen: undefined;
   NotificationScreen: undefined;
 };

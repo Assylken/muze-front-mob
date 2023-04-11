@@ -1,3 +1,10 @@
+import React, { FC } from "react";
+import tw from "twrnc";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Button from "../components/Forms/Button";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import InfoStack from "../stacks/InfoStack";
+import * as Animatable from "react-native-animatable";
 import {
   AuthStackParamList,
   BottomNavigationStack,
@@ -12,10 +19,6 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React, { FC } from "react";
-import tw from "twrnc";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "../components/Forms/Button";
 import {
   AntDesign,
   Ionicons,
@@ -23,9 +26,7 @@ import {
   FontAwesome,
   Feather,
 } from "@expo/vector-icons";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import InfoStack from "../stacks/InfoStack";
-import * as Animatable from "react-native-animatable";
+import CustomTextInput from "../components/Forms/CustomTextInput";
 
 type IEditProfileScreen = NativeStackScreenProps<
   MainStackParamList,
@@ -48,7 +49,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
           />
           <Text style={tw`font-bold text-2xl`}>Edit Profile</Text>
         </TouchableOpacity>
-        <View style={tw`items-center mt-8`}>
+        <TouchableOpacity style={tw`items-center mt-8`}>
           <Image
             style={tw`w-30 h-30 rounded-full`}
             source={
@@ -65,22 +66,10 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
               Change Profile photo
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={tw`px-8 mt-3`}>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Anel Amanbekova"
-              placeholderTextColor="#737373"
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="8 (707) 818 00 00"
-              placeholderTextColor="#737373"
-            />
-          </View>
+          <CustomTextInput placeholderValue={"Anel Amanbekova"} />
+          <CustomTextInput placeholderValue={"8(707)7077070"} />
           <Button
             containerStyle="flex mr-2 mt-3 w-[100%]"
             style="bg-[#fff] border-2 border-[#5C25F9] mb-3"
@@ -90,6 +79,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
             Save
           </Button>
         </View>
+
         <View style={tw`flex-col mx-8`}>
           <View style={tw`flex-row mt-3`}>
             <Feather name="info" size={24} color="#737373" />
@@ -123,27 +113,5 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 60,
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "center",
-    borderWidth: 2,
-    marginTop: 12,
-    paddingHorizontal: 20,
-    borderColor: "#D6D6D6",
-    borderRadius: 20,
-    paddingTop: 5,
-  },
-  textInput: {
-    padding: 13,
-    width: "100%",
-    color: "#5C25F9",
-    fontWeight: "medium",
-    fontSize: 15,
-  },
-});
 
 export default EditProfileScreen;

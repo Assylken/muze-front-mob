@@ -31,7 +31,7 @@ export default function InfoStack() {
     <SafeAreaView style={tw`flex flex-1 bg-white p-5`}>
       <TouchableOpacity
         style={tw`mt-2 ml-2 flex-row`}
-        onPress={() => navigation.navigate("ProfileScreen")}
+        onPress={() => navigation.navigate("EditProfileScreen")}
       >
         <AntDesign
           name="arrowleft"

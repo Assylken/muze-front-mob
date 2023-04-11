@@ -14,6 +14,7 @@ import { AuthStackParamList } from "../types";
 import tw from "twrnc";
 import { useAppDispatch } from "../redux/hooks";
 import { register } from "../redux/slices/auth";
+import CustomTextInput from "../components/Forms/CustomTextInput";
 
 type IRegisterScreen = NativeStackScreenProps<
   AuthStackParamList,
@@ -21,6 +22,7 @@ type IRegisterScreen = NativeStackScreenProps<
 >;
 
 const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
+  const { shadow, logo } = styles;
   const [errorMsg, setErrorMsg] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -38,86 +40,53 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
-      <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <View
-            style={{ flex: 1, flexDirection: "column", alignSelf: "center" }}
-          >
-            <Image
-              source={require("../assets/images/logo.png")}
-              style={styles.logo}
-            />
-            <Text style={styles.heading}>Register</Text>
-          </View>
-        </View>
-
-        <View style={{ flex: 1, width: "85%", marginTop: "-10%" }}>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter username"
-              placeholderTextColor="#5C25F9"
-              value={username}
-              onChangeText={(e) => setUsername(e)}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter Email"
-              placeholderTextColor="#5C25F9"
-              value={email}
-              onChangeText={(e) => setEmail(e)}
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.textInput}
-              secureTextEntry={true}
-              placeholder="Password"
-              placeholderTextColor="#5C25F9"
-              value={password}
-              onChangeText={(e) => setPassword(e)}
-            />
-          </View>
-        </View>
-
-        <View style={{ flex: 1, width: "85%", marginTop: -30 }}>
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+      <View
+        style={tw`flex-1 pt-10% pb-3 py-8 h-100% bg-[#fff] items-center justify-center`}
+      >
+        <View style={tw`flex-1 items-center`}>
+          <View style={tw`flex-1 self-center flex-col`}>
+            <Image source={require("../assets/images/logo.png")} style={logo} />
             <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontWeight: "bold",
-                textShadowColor: "rgba(0, 0, 0, 0.25)",
-                textShadowOffset: { width: 0, height: 4 },
-                textShadowRadius: 4,
-              }}
+              style={tw`flex-1 text-3xl font-bold self-center pt-10% text-[#586AF6]`}
             >
+              Register
+            </Text>
+          </View>
+        </View>
+
+        <View style={tw`flex-1 w-85% -mt-4`}>
+          <CustomTextInput
+            placeholderValue="Enter username"
+            inputValue={username}
+            func={(e) => setUsername(e)}
+          />
+          <CustomTextInput
+            placeholderValue="Enter Email"
+            inputValue={email}
+            func={(e) => setEmail(e)}
+          />
+          <CustomTextInput
+            placeholderValue="Password"
+            secure={true}
+            inputValue={password}
+            func={(e) => setPassword(e)}
+          />
+        </View>
+
+        <View style={tw`flex-1 w-85% -mt-7`}>
+          <TouchableOpacity
+            style={tw`h-16 w-100% justify-center bg-[#5C25F9] items-center px-4 border-[#5C25F9] rounded-6`}
+            onPress={handleRegister}
+          >
+            <Text style={[tw`text-white text-lg font-bold`, shadow]}>
               Create Account
             </Text>
           </TouchableOpacity>
 
-          <Text
-            style={{
-              alignSelf: "center",
-              color: "#1C1B1B",
-              paddingVertical: 30,
-              fontSize: 12,
-            }}
-          >
-            Or
-          </Text>
+          <Text style={tw`self-center text-[#1C1B1B] py-6 text-sm`}>Or</Text>
 
-          <View
-            style={{
-              flexDirection: "row",
-              width: "80%",
-              alignSelf: "center",
-              padding: 20,
-            }}
-          >
-            <View style={{ flex: 1, alignItems: "center" }}>
+          <View style={tw`flex-row w-80% self-center p-4`}>
+            <View style={tw`flex-1 items-center`}>
               <TouchableOpacity>
                 <Image
                   source={require("../assets/images/google-icon.png")}
@@ -126,7 +95,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <View style={{ flex: 1, alignItems: "center" }}>
+            <View style={tw`flex-1 items-center`}>
               <TouchableOpacity>
                 <Image
                   source={require("../assets/images/apple-icon.png")}
@@ -136,24 +105,11 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
             </View>
           </View>
 
-          <Text
-            style={{
-              color: "#ACACAC",
-              fontWeight: "bold",
-              fontSize: 16,
-              marginTop: "7%",
-              alignSelf: "center",
-            }}
-          >
+          <Text style={tw`text-[#ACACAC] font-bold text-base mt-3 self-center`}>
             Do you have an Account ?
           </Text>
           <Text
-            style={{
-              color: "#5C25F9",
-              fontWeight: "bold",
-              fontSize: 16,
-              alignSelf: "center",
-            }}
+            style={tw`text-[#5C25F9] font-bold text-lg self-center`}
             onPress={() => navigation.navigate("LoginScreen")}
           >
             Sign In
@@ -165,61 +121,18 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: "10%",
-    paddingBottom: 10,
-    paddingVertical: 40,
-    height: "100%",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   logo: {
     flex: 1,
-    width: "60%",
+    width: "90%",
     height: undefined,
     aspectRatio: 1,
     resizeMode: "contain",
     alignSelf: "center",
   },
-  heading: {
-    flex: 1,
-    fontSize: 30,
-    color: "#586AF6",
-    fontWeight: "bold",
-    alignSelf: "center",
-    paddingTop: "10%",
-  },
-  input: {
-    height: 60,
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "center",
-    borderWidth: 2,
-    opacity: 0.4,
-    marginTop: 15,
-    paddingHorizontal: 20,
-    borderColor: "#5C25F9",
-    borderRadius: 20,
-    paddingTop: 5,
-  },
-  textInput: {
-    padding: 13,
-    width: "100%",
-    color: "#5C25F9",
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-  button: {
-    height: 60,
-    width: "100%",
-    justifyContent: "center",
-    backgroundColor: "#5C25F9",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    borderColor: "#5C25F9",
-    borderRadius: 20,
+  shadow: {
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 4,
   },
 });
 

@@ -3,26 +3,10 @@ import {
   MainStackParamList,
   InfoNavigationStack,
 } from "../types";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import * as React from "react";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "../components/Forms/Button";
-import {
-  AntDesign,
-  Ionicons,
-  SimpleLineIcons,
-  FontAwesome,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
 import InfoScreen from "./InfoScreen";
@@ -94,6 +78,5 @@ const SettingsScreen: FC<ISettingsScreen> = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({});
 
 export default SettingsScreen;

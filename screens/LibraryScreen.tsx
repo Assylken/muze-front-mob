@@ -155,11 +155,11 @@ const DATA = [
   },
 ];
 
-type IFavouritesScreen = NativeStackScreenProps<
+type ILibraryScreen = NativeStackScreenProps<
   BottomNavigationStack,
-  "FavouritesScreen"
+  "LibraryScreen"
 >;
-const FavouritesScreen: FC<IFavouritesScreen> = ({ navigation }) => {
+const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
   return (
     <View style={tw`flex-1`}>
       <FlatList
@@ -222,4 +222,4 @@ const FavouritesScreen: FC<IFavouritesScreen> = ({ navigation }) => {
   );
 };
 
-export default FavouritesScreen;
+export default LibraryScreen;
