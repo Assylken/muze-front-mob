@@ -1,159 +1,66 @@
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import tw from "twrnc";
 import {
-  SectionList,
   StyleSheet,
-  Text,
-  View,
   FlatList,
   Image,
   TouchableOpacity,
   TextInput,
-  Button,
+  View,
+  Text,
+  SafeAreaView,
 } from "react-native";
-import { Stack, Avatar } from "@react-native-material/core";
-import { Entypo, AntDesign, SimpleLineIcons } from "@expo/vector-icons";
-import Modal from "react-native-modal";
-import {
-  MenuContext,
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-  MenuProvider,
-} from "react-native-popup-menu";
+import React from "react";
+import tw from "twrnc";
+import * as Animatable from "react-native-animatable";
+import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { BottomNavigationStack } from "../types";
+import { AntDesign } from "@expo/vector-icons";
 
-const DATA = [
+const ALBUM_DATA = [
   {
-    name: "Miyah Myles",
-    email: "miyah.myles@gmail.com",
-    position: "Data Entry Clerk",
-    photo:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6",
+    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
   {
-    name: "June Cha",
-    email: "june.cha@gmail.com",
-    position: "Sales Manager",
-    photo: "https://randomuser.me/api/portraits/women/44.jpg",
+    img: "https://upload.wikimedia.org/wikipedia/en/3/38/Lizzo_-_Special.png",
+    title: "Lizzo",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
   {
-    name: "Iida Niskanen",
-    email: "iida.niskanen@gmail.com",
-    position: "Sales Manager",
-    photo: "https://randomuser.me/api/portraits/women/68.jpg",
+    img: "https://upload.wikimedia.org/wikipedia/ru/b/b2/Olivia_Rodrigo_-_SOUR.png",
+    title: "Olivia",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
   {
-    name: "Renee Sims",
-    email: "renee.sims@gmail.com",
-    position: "Medical Assistant",
-    photo: "https://randomuser.me/api/portraits/women/65.jpg",
+    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
   {
-    name: "Jonathan Nu\u00f1ez",
-    email: "jonathan.nu\u00f1ez@gmail.com",
-    position: "Clerical",
-    photo: "https://randomuser.me/api/portraits/men/43.jpg",
+    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+
+  {
+    img: "https://upload.wikimedia.org/wikipedia/ru/b/b2/Olivia_Rodrigo_-_SOUR.png",
+    title: "Olivia",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
   {
-    name: "Sasha Ho",
-    email: "sasha.ho@gmail.com",
-    position: "Administrative Assistant",
-    photo:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?h=350&auto=compress&cs=tinysrgb",
+    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
   {
-    name: "Abdullah Hadley",
-    email: "abdullah.hadley@gmail.com",
-    position: "Marketing",
-    photo:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=a72ca28288878f8404a795f39642a46f",
-  },
-  {
-    name: "Thomas Stock",
-    email: "thomas.stock@gmail.com",
-    position: "Product Designer",
-    photo:
-      "https://tinyfac.es/data/avatars/B0298C36-9751-48EF-BE15-80FB9CD11143-500w.jpeg",
-  },
-  {
-    name: "Veeti Seppanen",
-    email: "veeti.seppanen@gmail.com",
-    position: "Product Designer",
-    photo: "https://randomuser.me/api/portraits/men/97.jpg",
-  },
-  {
-    name: "Bonnie Riley",
-    email: "bonnie.riley@gmail.com",
-    position: "Marketing",
-    photo: "https://randomuser.me/api/portraits/women/26.jpg",
-  },
-  {
-    name: "Miyah Myles",
-    email: "miyah.myles@gmail.com",
-    position: "Data Entry Clerk",
-    photo:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6",
-  },
-  {
-    name: "June Cha",
-    email: "june.cha@gmail.com",
-    position: "Sales Manager",
-    photo: "https://randomuser.me/api/portraits/women/44.jpg",
-  },
-  {
-    name: "Iida Niskanen",
-    email: "iida.niskanen@gmail.com",
-    position: "Sales Manager",
-    photo: "https://randomuser.me/api/portraits/women/68.jpg",
-  },
-  {
-    name: "Renee Sims",
-    email: "renee.sims@gmail.com",
-    position: "Medical Assistant",
-    photo: "https://randomuser.me/api/portraits/women/65.jpg",
-  },
-  {
-    name: "Jonathan Nu\u00f1ez",
-    email: "jonathan.nu\u00f1ez@gmail.com",
-    position: "Clerical",
-    photo: "https://randomuser.me/api/portraits/men/43.jpg",
-  },
-  {
-    name: "Sasha Ho",
-    email: "sasha.ho@gmail.com",
-    position: "Administrative Assistant",
-    photo:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?h=350&auto=compress&cs=tinysrgb",
-  },
-  {
-    name: "Abdullah Hadley",
-    email: "abdullah.hadley@gmail.com",
-    position: "Marketing",
-    photo:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=a72ca28288878f8404a795f39642a46f",
-  },
-  {
-    name: "Thomas Stock",
-    email: "thomas.stock@gmail.com",
-    position: "Product Designer",
-    photo:
-      "https://tinyfac.es/data/avatars/B0298C36-9751-48EF-BE15-80FB9CD11143-500w.jpeg",
-  },
-  {
-    name: "Veeti Seppanen",
-    email: "veeti.seppanen@gmail.com",
-    position: "Product Designer",
-    photo: "https://randomuser.me/api/portraits/men/97.jpg",
-  },
-  {
-    name: "Bonnie Riley",
-    email: "bonnie.riley@gmail.com",
-    position: "Marketing",
-    photo: "https://randomuser.me/api/portraits/women/26.jpg",
+    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
 ];
+
+const SECTIONS = ["My Creativity", "My Playlists"];
 
 type ILibraryScreen = NativeStackScreenProps<
   BottomNavigationStack,
@@ -161,64 +68,62 @@ type ILibraryScreen = NativeStackScreenProps<
 >;
 const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
   return (
-    <View style={tw`flex-1`}>
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => (
-          <SafeAreaView style={tw`flex flex-1 bg-white w-93% self-center`}>
-            <TouchableOpacity style={tw`flex-row mt-2`}>
-              <Image
-                source={{ uri: item.photo }}
-                style={tw`w-12 h-12 rounded-xl`}
-              />
-              <View style={tw`flex-col w-full `}>
-                <View style={tw`flex-row`}>
-                  <View style={tw`flex-col w-60% pl-5 pb-2`}>
-                    <Text style={tw`text-base font-semibold`}>
-                      {item.position}
-                    </Text>
-                    <Text>{item.name}</Text>
-                  </View>
-                  <View style={tw`flex-col w-20%`}>
-                    <View style={tw`flex-row-reverse`}>
-                      <TouchableOpacity
-                        style={tw`flex-row-reverse `}
-                        onPress={() => onPressItem(item)}
-                      >
-                        <SimpleLineIcons
-                          name="options"
-                          size={16}
-                          color="black"
-                        />
-                      </TouchableOpacity>
+    <SafeAreaView style={tw`flex-1 bg-white`}>
+      <Text style={tw`font-bold text-2xl p-6 ml-2`}>Library</Text>
+      <View style={tw`flex-1 self-center`}>
+        <View style={tw`h-24`}>
+          <FlatList
+            data={SECTIONS}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity style={tw`flex-row mt-2`}>
+                <View style={tw`flex-col w-full`}>
+                  <View style={tw`flex-row`}>
+                    <View style={tw`flex-col w-80% pl-5 pb-2`}>
+                      <Text style={tw`text-lg font-semibold text-[#5C25F9]`}>
+                        {item}
+                      </Text>
                     </View>
-                    <View style={tw`flex-row pt-2`}>
-                      <Entypo
-                        name="share"
-                        size={14}
-                        color="black"
-                        style={tw`ml-1 mt-1`}
-                      />
-                      <Text style={tw`ml-1`}>17</Text>
+                    <View style={tw`w-10%`}>
                       <AntDesign
-                        name="playcircleo"
-                        size={14}
+                        name="arrowright"
+                        size={20}
                         color="black"
-                        style={tw`ml-1 mt-1`}
+                        style={tw`flex-row-reverse self-center`}
                       />
-                      <Text style={tw`ml-1`}>122</Text>
                     </View>
                   </View>
-                </View>
 
-                <View style={tw`bg-[#D3D3D3] h-0.2 w-80% ml-3`}></View>
-              </View>
-            </TouchableOpacity>
-          </SafeAreaView>
-        )}
-        keyExtractor={(item) => item.item}
-      />
-    </View>
+                  <View style={tw`bg-[#D3D3D3] h-0.2 w-90% ml-3`}></View>
+                </View>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.item}
+          />
+        </View>
+
+        <Text style={tw`font-bold text-2xl p-3 ml-2`}>Albums</Text>
+        <FlatList
+          data={ALBUM_DATA}
+          numColumns={2}
+          renderItem={({ item, index }) => (
+            <View style={tw`flex bg-white self-center px-2`}>
+              <Animatable.View
+                animation="fadeInUp"
+                duration={900}
+                delay={index * 90}
+              >
+                <SingleAlbumBody
+                  cover={item.img}
+                  name={item.title}
+                  artist={item.title}
+                />
+              </Animatable.View>
+            </View>
+          )}
+          keyExtractor={(item) => item.item}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 

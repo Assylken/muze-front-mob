@@ -9,11 +9,11 @@ import {
   Foundation,
 } from "@expo/vector-icons";
 const GridBox = (props) => {
-  const { iconName, iconColor, value, unit } = props;
+  const { iconName, iconColor, value, unit, func } = props;
   return (
     <TouchableOpacity
       style={tw`flex-1 flex-row h-90% items-center m-2 rounded-5 bg-[#F9F9F9]`}
-      onPress={() => navigation.navigate("FollowingScreen")}
+      onPress={func}
     >
       <View>
         <SimpleLineIcons

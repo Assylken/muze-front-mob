@@ -3,6 +3,7 @@ import {
   MainStackParamList,
   InfoNavigationStack,
 } from "../types";
+import { AntDesign } from "@expo/vector-icons";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import * as React from "react";
 import tw from "twrnc";

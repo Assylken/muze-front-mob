@@ -64,12 +64,14 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
             iconColor={"blue"}
             value={55}
             unit={"Following"}
+            func={() => navigation.navigate("FollowingScreen")}
           ></GridBox>
           <GridBox
             iconName={"user-follow"}
             iconColor={"#62dc3c"}
             value={22}
             unit={"Followers"}
+            func={() => navigation.navigate("FollowersScreen")}
           ></GridBox>
         </View>
         <View

@@ -7,12 +7,17 @@ import {
   View,
   Text,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import * as Animatable from "react-native-animatable";
+import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { BottomNavigationStack } from "../types";
+import CustomCarousel from "../components/Forms/CustomCarousel";
 
-const ALBUM_DATA = [
+const NEW_ALBUMS = [
   {
     img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
     title: "Jeon Jungkook",
@@ -55,40 +60,130 @@ const ALBUM_DATA = [
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
 ];
+const TOP = [
+  {
+    img: "https://upload.wikimedia.org/wikipedia/en/0/00/Miley_Cyrus_-_Flowers_%28digital_single%29.png",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+  {
+    img: "https://upload.wikimedia.org/wikipedia/en/a/a0/HarryStyles-albumcover.png",
+    title: "Lizzo",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+  {
+    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
+    title: "Olivia",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+  {
+    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+  {
+    img: "https://upload.wikimedia.org/wikipedia/en/a/a0/HarryStyles-albumcover.png",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+
+  {
+    img: "https://upload.wikimedia.org/wikipedia/en/0/00/Miley_Cyrus_-_Flowers_%28digital_single%29.png",
+    title: "Olivia",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+  {
+    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+  {
+    img: "https://upload.wikimedia.org/wikipedia/en/0/00/Miley_Cyrus_-_Flowers_%28digital_single%29.png",
+    title: "Jeon Jungkook",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
+  },
+];
+type IExploreScreen = NativeStackScreenProps<
+  BottomNavigationStack,
+  "ExploreScreen"
+>;
 
 const ExploreScreen = () => {
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
-      <Text style={tw`font-bold text-2xl p-6 ml-2`}>Library</Text>
-      <View style={tw`flex-1 self-center`}>
-        <FlatList
-          data={ALBUM_DATA}
-          numColumns={2}
-          renderItem={({ item, index }) => (
-            <View style={tw`flex bg-white self-center px-2`}>
-              <Animatable.View
-                animation="fadeInUp"
-                duration={900}
-                delay={index * 90}
-              >
-                <TouchableOpacity style={tw`flex-row m-3 w-36 h-36`}>
-                  <Image
-                    source={{ uri: item.img }}
-                    style={tw`w-36 h-36 object-fill rounded-2xl`}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={tw`text-base pl-3 text-[#5C25F9] font-semibold leading-4`}
+      <ScrollView>
+        <View style={tw`px-5 pt-5`}>
+          <Text style={tw`font-bold text-2xl mt-4 ml-3`}>New Albums</Text>
+          <FlatList
+            data={NEW_ALBUMS}
+            horizontal
+            renderItem={({ item, index }) => (
+              <View style={tw`flex bg-white self-center`}>
+                <Animatable.View
+                  animation="fadeInUp"
+                  duration={900}
+                  delay={index * 90}
                 >
-                  {item.title}{" "}
-                </Text>
-                <Text style={tw`text-base pl-3`}>{item.title} </Text>
-              </Animatable.View>
-            </View>
-          )}
-          keyExtractor={(item) => item.item}
-        />
-      </View>
+                  <SingleAlbumBody
+                    cover={item.img}
+                    name={item.title}
+                    artist={item.title}
+                  />
+                </Animatable.View>
+              </View>
+            )}
+            keyExtractor={(item) => item.item}
+          />
+        </View>
+
+        <View style={tw`px-5 pt-5`}>
+          <Text style={tw`font-bold text-2xl mt-2 ml-3`}>Top 10</Text>
+          <FlatList
+            data={TOP}
+            horizontal
+            renderItem={({ item, index }) => (
+              <View style={tw`flex bg-white self-center`}>
+                <Animatable.View
+                  animation="fadeInUp"
+                  duration={900}
+                  delay={index * 90}
+                >
+                  <SingleAlbumBody
+                    cover={item.img}
+                    name={item.title}
+                    artist={item.title}
+                  />
+                </Animatable.View>
+              </View>
+            )}
+            keyExtractor={(item) => item.item}
+          />
+        </View>
+
+        <View style={tw`px-5 pt-5`}>
+          <Text style={tw`font-bold text-2xl mt-2 ml-3`}>Pop Top</Text>
+          <FlatList
+            data={NEW_ALBUMS}
+            horizontal
+            renderItem={({ item, index }) => (
+              <View style={tw`flex bg-white self-center`}>
+                <Animatable.View
+                  animation="fadeInUp"
+                  duration={900}
+                  delay={index * 90}
+                >
+                  <SingleAlbumBody
+                    cover={item.img}
+                    name={item.title}
+                    artist={item.title}
+                  />
+                </Animatable.View>
+              </View>
+            )}
+            keyExtractor={(item) => item.item}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

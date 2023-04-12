@@ -5,13 +5,6 @@ import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Forms/Button";
 import {
-  AntDesign,
-  Ionicons,
-  SimpleLineIcons,
-  FontAwesome,
-  Entypo,
-} from "@expo/vector-icons";
-import {
   StyleSheet,
   Text,
   View,
@@ -21,8 +14,9 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-
+import SingleSongBody from "../components/Forms/SingleSongBody";
 import * as Animatable from "react-native-animatable";
+import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
 
 type IHomeScreen = NativeStackScreenProps<BottomNavigationStack, "HomeScreen">;
 
@@ -135,18 +129,11 @@ const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
                 duration={900}
                 delay={index * 90}
               >
-                <TouchableOpacity style={tw`flex-row m-3 w-36 h-36`}>
-                  <Image
-                    source={{ uri: item.img }}
-                    style={tw`w-36 h-36 object-fill rounded-2xl`}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={tw`text-base font-medium pl-3 text-[#5C25F9] leading-4`}
-                >
-                  {item.title}{" "}
-                </Text>
-                <Text style={tw`text-base pl-3`}>{item.title} </Text>
+                <SingleAlbumBody
+                  cover={item.img}
+                  name={item.title}
+                  artist={item.title}
+                />
               </Animatable.View>
             </View>
           )}
@@ -163,54 +150,13 @@ const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
                   duration={900}
                   delay={index * 90}
                 >
-                  <TouchableOpacity style={tw`flex-row mt-2`}>
-                    <Image
-                      source={{ uri: item.photo }}
-                      style={tw`w-12 h-12 rounded-xl`}
-                    />
-                    <View style={tw`flex-col w-full `}>
-                      <View style={tw`flex-row`}>
-                        <View style={tw`flex-col w-60% pl-5 pb-2`}>
-                          <Text style={tw`text-base font-semibold`}>
-                            {item.position}
-                          </Text>
-                          <Text>{item.name}</Text>
-                        </View>
-                        <View style={tw`flex-col w-20%`}>
-                          <View style={tw`flex-row-reverse`}>
-                            <TouchableOpacity
-                              style={tw`flex-row-reverse `}
-                              onPress={() => onPressItem(item)}
-                            >
-                              <SimpleLineIcons
-                                name="options"
-                                size={16}
-                                color="black"
-                              />
-                            </TouchableOpacity>
-                          </View>
-                          <View style={tw`flex-row pt-2`}>
-                            <Entypo
-                              name="share"
-                              size={14}
-                              color="black"
-                              style={tw`ml-1 mt-1`}
-                            />
-                            <Text style={tw`ml-1`}>17</Text>
-                            <AntDesign
-                              name="playcircleo"
-                              size={14}
-                              color="black"
-                              style={tw`ml-1 mt-1`}
-                            />
-                            <Text style={tw`ml-1`}>122</Text>
-                          </View>
-                        </View>
-                      </View>
-
-                      <View style={tw`bg-[#D3D3D3] h-0.2 w-80% ml-3`}></View>
-                    </View>
-                  </TouchableOpacity>
+                  <SingleSongBody
+                    cover={item.photo}
+                    name={item.position}
+                    artist={item.name}
+                    shares="17"
+                    streams="122"
+                  />
                 </Animatable.View>
               </SafeAreaView>
             )}

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/HomeScreen";
 import ExploreScreen from "../screens/ExploreScreen";
 import LibraryScreen from "../screens/LibraryScreen";
-import NotificationScreen from "../screens/NotificationScreen";
+import SearchScreen from "../screens/SearchScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import MainStack from "./MainStack";
 import {
@@ -78,23 +78,15 @@ export default function BottomNavigate() {
         }}
       />
       <Tab.Screen
-        name="Notification"
-        component={NotificationScreen}
+        name="Search"
+        component={SearchScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) =>
             focused ? (
-              <Ionicons
-                name="notifications-outline"
-                size={24}
-                color="#5C25F9"
-              />
+              <FontAwesome name="search" size={24} color="#5C25F9" />
             ) : (
-              <Ionicons
-                name="notifications-outline"
-                size={24}
-                color="#737373"
-              />
+              <FontAwesome name="search" size={24} color="#737373" />
             ),
         }}
       />
