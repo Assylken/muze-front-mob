@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallBack, useRef, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BottomNavigationStack } from "../types";
 import tw from "twrnc";
@@ -17,6 +17,11 @@ import {
 import SingleSongBody from "../components/Forms/SingleSongBody";
 import * as Animatable from "react-native-animatable";
 import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
+// import BottomSheet, {
+//   BottomSheetModal,
+//   BottomSheetView,
+//   BottomSheetModalProvider,
+// } from "@gorhom/bottom-sheet";
 
 type IHomeScreen = NativeStackScreenProps<BottomNavigationStack, "HomeScreen">;
 
@@ -115,6 +120,11 @@ const ALBUM_DATA = [
 ];
 
 const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
+  // const sheetRef = useRef<BottomSheet>(null);
+  // const [isOpen, setIsOpen] = useState(true);
+
+  // const snapPoints = ["40%"];
+
   return (
     <SafeAreaView style={tw`flex flex-1 bg-white p-5 items-center`}>
       <ScrollView style={tw` w-full`}>
@@ -139,7 +149,11 @@ const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
           )}
           keyExtractor={(item) => item.item}
         />
-
+        {/* <BottomSheet ref={sheetRef} snapPoints={snapPoints}>
+          <BottomSheetView>
+            <Text>hello</Text>
+          </BottomSheetView>
+        </BottomSheet> */}
         <View style={tw`mt-5`}>
           <FlatList
             data={SONG_DATA}

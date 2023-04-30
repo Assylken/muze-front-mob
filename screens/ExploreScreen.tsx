@@ -15,7 +15,6 @@ import * as Animatable from "react-native-animatable";
 import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BottomNavigationStack } from "../types";
-import CustomCarousel from "../components/Forms/CustomCarousel";
 
 const NEW_ALBUMS = [
   {
@@ -111,8 +110,8 @@ type IExploreScreen = NativeStackScreenProps<
 const ExploreScreen = () => {
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
-      <ScrollView>
-        <View style={tw`px-5 pt-5`}>
+      <ScrollView style={tw`pb-5`}>
+        <View style={tw`px-5 pt-3`}>
           <Text style={tw`font-bold text-2xl mt-4 ml-3`}>New Albums</Text>
           <FlatList
             data={NEW_ALBUMS}
@@ -136,7 +135,7 @@ const ExploreScreen = () => {
           />
         </View>
 
-        <View style={tw`px-5 pt-5`}>
+        <View style={tw`px-5 pt-3`}>
           <Text style={tw`font-bold text-2xl mt-2 ml-3`}>Top 10</Text>
           <FlatList
             data={TOP}
@@ -160,7 +159,7 @@ const ExploreScreen = () => {
           />
         </View>
 
-        <View style={tw`px-5 pt-5`}>
+        <View style={tw`px-5 pt-3`}>
           <Text style={tw`font-bold text-2xl mt-2 ml-3`}>Pop Top</Text>
           <FlatList
             data={NEW_ALBUMS}

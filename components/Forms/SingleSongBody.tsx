@@ -13,7 +13,7 @@ const SingleSongBody = (props) => {
   const { cover, name, artist, shares, streams } = props;
   return (
     <TouchableOpacity style={tw`flex-row mt-2`}>
-      <Image source={{ uri: cover }} style={tw`w-12 h-12 rounded-xl`} />
+      <Image source={{ uri: cover }} style={tw`w-12 h-12 rounded-2xl`} />
       <View style={tw`flex-col w-full `}>
         <View style={tw`flex-row`}>
           <View style={tw`flex-col w-60% pl-5 pb-2`}>

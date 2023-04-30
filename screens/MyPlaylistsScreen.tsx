@@ -7,15 +7,15 @@ import {
   View,
   Text,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
-import * as Animatable from "react-native-animatable";
 import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BottomNavigationStack } from "../types";
-import LibraryOptions from "../components/Forms/LibraryOptions";
 import { AntDesign } from "@expo/vector-icons";
+import PlaylistView from "../components/Forms/PlaylistView";
 
 const ALBUM_DATA = [
   {
@@ -61,50 +61,49 @@ const ALBUM_DATA = [
   },
 ];
 
-type ILibraryScreen = NativeStackScreenProps<
-  BottomNavigationStack,
-  "LibraryScreen"
->;
-const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
+//   type ILibraryScreen = NativeStackScreenProps<
+//     BottomNavigationStack,
+//     "LibraryScreen"
+//   >;
+const MyPlaylistsScreen: FC<IMyPlaylistsScreen> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
-      <Text style={tw`font-bold text-2xl p-5 ml-2`}>Library</Text>
-      <View style={tw`flex-1 self-center`}>
-        <View style={tw`h-auto pb-3`}>
-          <LibraryOptions
-            optionText="My Creativity"
-            onPress={() => navigation.navigate("MyAlbumsScreen")}
+      <ScrollView style={tw` w-full`}>
+        <TouchableOpacity
+          style={tw`mt-8 ml-10 flex-row`}
+          //   onPress={() => navigation.navigate("ProfileScreen")}
+        >
+          <AntDesign
+            name="arrowleft"
+            size={25}
+            color="black"
+            style={tw`mr-5 self-center`}
           />
-          <LibraryOptions
-            optionText="My Playlists"
-            onPress={() => navigation.navigate("MyPlaylistsScreen")}
-          />
-        </View>
-
-        <Text style={tw`font-bold text-2xl p-2 ml-2`}>Albums</Text>
-        <FlatList
-          data={ALBUM_DATA}
-          numColumns={2}
-          renderItem={({ item, index }) => (
-            <View style={tw`flex bg-white self-center px-1`}>
-              <Animatable.View
-                animation="fadeInUp"
-                duration={900}
-                delay={index * 90}
-              >
-                <SingleAlbumBody
-                  cover={item.img}
-                  name={item.title}
-                  artist={item.title}
-                />
-              </Animatable.View>
+          <Text style={tw`font-bold text-2xl pb-2`}>My Playlists</Text>
+        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={tw`flex-row px-8 py-2`}>
+            <View style={tw`w-36 h-36 bg-gray-200 rounded-2xl`}>
+              <AntDesign
+                name="plus"
+                size={24}
+                color="black"
+                style={tw`flex-1 self-center mt-15`}
+              />
             </View>
-          )}
-          keyExtractor={(item) => item.item}
-        />
-      </View>
+
+            <Text style={tw`text-lg font-medium self-center pl-4 text-black`}>
+              Create new...{" "}
+            </Text>
+          </TouchableOpacity>
+
+          <PlaylistView name="Good mood" />
+
+          <PlaylistView name="road trips" />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default LibraryScreen;
+export default MyPlaylistsScreen;

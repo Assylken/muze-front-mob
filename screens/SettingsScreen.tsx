@@ -19,11 +19,11 @@ type ISettingsScreen = NativeStackScreenProps<
 >;
 
 const SettingsScreen: FC<ISettingsScreen> = ({ navigation }) => {
-  const [isDarkMode, setDarkMode] = React.useState(false);
+  // const [isDarkMode, setDarkMode] = React.useState(false);
 
-  const toggleDarkMode = (checked: boolean) => {
-    setDarkMode(checked);
-  };
+  // const toggleDarkMode = (checked: boolean) => {
+  //   setDarkMode(checked);
+  // };
 
   return (
     <SafeAreaView style={tw`flex flex-1 bg-white`}>
@@ -41,7 +41,7 @@ const SettingsScreen: FC<ISettingsScreen> = ({ navigation }) => {
       </TouchableOpacity>
 
       <ScrollView style={tw`w-full`}>
-        <Text style={tw`uppercase p-8 pb-2 font-medium text-[#959595]`}>
+        {/* <Text style={tw`uppercase p-8 pb-2 font-medium text-[#959595]`}>
           display
         </Text>
         <TouchableOpacity
@@ -57,7 +57,7 @@ const SettingsScreen: FC<ISettingsScreen> = ({ navigation }) => {
               size={28}
             />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <Text style={tw`uppercase p-8 pb-2 font-medium text-[#959595]`}>
           advanced

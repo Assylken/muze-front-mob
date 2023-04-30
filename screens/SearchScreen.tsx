@@ -1,7 +1,14 @@
-import { View, Text, SafeAreaView, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import tw from "twrnc";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import SearchBar from "../components/Forms/SearchBar";
 
 type ISearchScreen = NativeStackScreenProps<
   BottomNavigationStack,
@@ -10,20 +17,24 @@ type ISearchScreen = NativeStackScreenProps<
 
 const SearchScreen = () => {
   return (
-    <SafeAreaView style={tw`flex flex-1 items-center px-4 py-8 bg-white`}>
-      <View
-        style={tw`p-2 h-12 flex-row w-90% bg-[#f3f3f3] rounded-4 items-center`}
+    <SafeAreaView style={tw`flex-1 bg-white`}>
+      <TouchableOpacity
+        style={tw`mt-8 ml-10 flex-row`}
+        //   onPress={() => navigation.navigate("ProfileScreen")}
       >
-        <FontAwesome
-          name="search"
-          size={20}
+        <AntDesign
+          name="arrowleft"
+          size={25}
           color="black"
-          style={tw`mr-2 ml-2`}
+          style={tw`mr-5 self-center`}
         />
-        <TextInput style={tw``} placeholder="Search" />
-      </View>
-      <View style={tw` items-center`}>
-        <Text style={tw`mt-10`}>Type to search for songs, artists...</Text>
+        <Text style={tw`font-bold text-2xl pb-2`}>Search</Text>
+      </TouchableOpacity>
+      <View style={tw`flex flex-1 items-center px-4 py-3`}>
+        <SearchBar placeholderText="Search..." />
+        <View style={tw`items-center`}>
+          <Text style={tw`mt-8`}>Type to search for songs, artists...</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
