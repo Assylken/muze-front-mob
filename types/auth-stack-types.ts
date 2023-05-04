@@ -7,9 +7,12 @@ export type AuthStackParamList = {
 };
 
 export type MainStackParamList = {
+  InfoScreen: undefined;
+};
+
+export type TopNavigationStackParamList = {
   ProfileScreen: undefined;
   EditProfileScreen: undefined;
-  InfoScreen: undefined;
 };
 
 export type BottomNavigationStack = {

@@ -2,6 +2,7 @@ import {
   AuthStackParamList,
   BottomNavigationStack,
   MainStackParamList,
+  TopNavigationStackParamList,
 } from "../types";
 import {
   View,
@@ -23,13 +24,19 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useAppDispatch } from "../redux/hooks";
+import { logout } from "../redux/slices/auth";
 
 type IEditProfileScreen = NativeStackScreenProps<
-  MainStackParamList,
+  TopNavigationStackParamList,
   "EditProfileScreen"
 >;
 
 const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
+  const dispatch = useAppDispatch();
+  const handleLogout = async () => {
+    dispatch(logout());
+  };
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
       <View style={tw`mt-8 self-center`}>
@@ -104,7 +111,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
           <AntDesign name="logout" size={24} color="#5C25F9" />
           <Text
             style={tw`font-medium text-base text-[#5C25F9] ml-3`}
-            // onPress={() => navigation.navigate()}
+            onPress={handleLogout}
           >
             Log out
           </Text>

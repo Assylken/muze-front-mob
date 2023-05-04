@@ -2,6 +2,7 @@ import {
   AuthStackParamList,
   BottomNavigationStack,
   MainStackParamList,
+  TopNavigationStackParamList,
 } from "../types";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { FC } from "react";
@@ -17,12 +18,15 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-type IProfilePage = NativeStackScreenProps<MainStackParamList, "ProfileScreen">;
+type IProfilePage = NativeStackScreenProps<
+  TopNavigationStackParamList,
+  "ProfileScreen"
+>;
 
 const ProfileScreen: FC<IProfilePage> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
-      <View style={tw`flex flex-row h-42 px-10 pt-15`}>
+    <SafeAreaView style={tw`flexs flex-1 flex-col bg-white`}>
+      <View style={tw`flex flex-row h-24 px-10`}>
         <View>
           <Image
             style={tw`w-20 h-20 rounded-full`}
@@ -43,7 +47,7 @@ const ProfileScreen: FC<IProfilePage> = ({ navigation }) => {
       </View>
       <Button
         containerStyle="flex mr-2 px-8"
-        style="bg-[#fff] border-2 border-[#5C25F9] mb-3"
+        style="bg-[#fff] border-2 border-[#5C25F9]"
         textStyle="text-[#5C25F9] font-bold text-lg"
         onPress={() => navigation.navigate("EditProfileScreen")}
       >
