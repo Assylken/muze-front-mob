@@ -3,9 +3,9 @@ import {
   View,
   Text,
   Image,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
+  Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -15,33 +15,62 @@ import tw from "twrnc";
 import { useAppDispatch } from "../redux/hooks";
 import { register } from "../redux/slices/auth";
 import CustomTextInput from "../components/Forms/CustomTextInput";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Picker } from "@react-native-picker/picker";
+import * as Yup from "yup";
+import { useGetAllCountryQuery } from "../redux/services/authorized.service";
 
 type IRegisterScreen = NativeStackScreenProps<
   AuthStackParamList,
   "RegisterScreen"
 >;
 
+const SignUpSchema = Yup.object().shape({
+  username: Yup.string().required("Required field"),
+  email: Yup.string().required("Required field"),
+  password: Yup.string()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "Password must contain at least 8 symbols, one uppercase, one lowercase, one digit and one special symbol"
+    )
+    .required("Required field"),
+});
+
 const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
   const { shadow, logo } = styles;
-  const [errorMsg, setErrorMsg] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const dispatch = useAppDispatch();
-  const handleRegister = async () => {
-    const payload = {
-      username,
-      email,
-      password,
-    };
-    console.log(payload);
+  const { data } = useGetAllCountryQuery(null);
+  const [selectedValue, setSelectedValue] = useState("");
 
-    dispatch(register(payload));
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(SignUpSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      countryId: "",
+      isArtist: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: any) => {
+    values.isArtist = isEnabled;
+    values.countryId = selectedValue;
+    console.log(values);
+    dispatch(register(values));
   };
+
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <View
-        style={tw`flex-1 pt-10% pb-3 py-8 h-100% bg-[#fff] items-center justify-center`}
+        style={tw`flex-col  pt-10%  pb-3 h-100% bg-[#fff] items-center justify-center`}
       >
         <View style={tw`flex-1 items-center`}>
           <View style={tw`flex-1 self-center flex-col`}>
@@ -54,57 +83,105 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={tw`flex-1 w-85% -mt-4`}>
-          <CustomTextInput
-            placeholderValue="Enter username"
-            inputValue={username}
-            func={(e) => setUsername(e)}
-          />
-          <CustomTextInput
-            placeholderValue="Enter Email"
-            inputValue={email}
-            func={(e) => setEmail(e)}
-          />
-          <CustomTextInput
-            placeholderValue="Password"
-            secure={true}
-            inputValue={password}
-            func={(e) => setPassword(e)}
-          />
-        </View>
+        <View style={tw`flex-1 w-85% mt-20`}>
+          <View>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={tw`flex flex-row ml-2 items-center`}>
+                  <Switch
+                    style={tw`w-8 h-8 rounded`}
+                    trackColor={{ false: "#767577", true: "#5C25F9" }}
+                    thumbColor={isEnabled ? "black" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                  ></Switch>
+                  <Text style={tw`ml-4 font-semibold text-lg text-[#5C25F9] `}>
+                    Register as Artist
+                  </Text>
+                </View>
+              )}
+              name="isArtist"
+            />
+            <View>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextInput
+                    placeholderValue="Enter username"
+                    inputValue={value}
+                    onBlur={onBlur}
+                    func={onChange}
+                  />
+                )}
+                name="username"
+              />
+              {errors.username ? <View>{errors.username?.message}</View> : null}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextInput
+                    placeholderValue="Enter email"
+                    inputValue={value}
+                    onBlur={onBlur}
+                    func={onChange}
+                  />
+                )}
+                name="email"
+              />
 
-        <View style={tw`flex-1 w-85% -mt-7`}>
-          <TouchableOpacity
-            style={tw`h-16 w-100% justify-center bg-[#5C25F9] items-center px-4 border-[#5C25F9] rounded-6`}
-            onPress={handleRegister}
-          >
-            <Text style={[tw`text-white text-lg font-bold`, shadow]}>
-              Create Account
-            </Text>
-          </TouchableOpacity>
+              <Picker
+                selectedValue={selectedValue}
+                onValueChange={(itemValue: any, itemIndex: any) =>
+                  setSelectedValue(itemValue)
+                }
+                mode="dialog"
+                itemStyle={{ height: 100, width: "100%" }}
+                //style={tw`h-16 flex-col items-center pt-5 rounded-6 border-[#5C25F9] border-2 opacity-40 mt-4 px-4 text-[#5C25F9] font-bold text-base`}
+              >
+                {data &&
+                  data.map((value: any) => {
+                    return (
+                      <Picker.Item
+                        key={value.id}
+                        label={value.country_name}
+                        value={value.id}
+                      />
+                    );
+                  })}
+              </Picker>
 
-          <Text style={tw`self-center text-[#1C1B1B] py-6 text-sm`}>Or</Text>
-
-          <View style={tw`flex-row w-80% self-center p-4`}>
-            <View style={tw`flex-1 items-center`}>
-              <TouchableOpacity>
-                <Image
-                  source={require("../assets/images/google-icon.png")}
-                  style={{ height: 27, width: 27 }}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <View style={tw`flex-1 items-center`}>
-              <TouchableOpacity>
-                <Image
-                  source={require("../assets/images/apple-icon.png")}
-                  style={{ height: 27, width: 22 }}
-                />
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomTextInput
+                    placeholderValue="Enter password"
+                    inputValue={value}
+                    onBlur={onBlur}
+                    func={onChange}
+                    secure={true}
+                  />
+                )}
+                name="password"
+              />
+              {errors.password ? <View>{errors.password?.message}</View> : null}
+              <TouchableOpacity
+                style={tw`h-16 w-100% justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
+                onPress={handleSubmit(onSubmit)}
+              >
+                <Text style={[tw`text-white text-lg font-bold`, shadow]}>
+                  Create Account
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
+        </View>
 
+        <View style={tw`flex-1 w-85% mt-100`}>
           <Text style={tw`text-[#ACACAC] font-bold text-base mt-3 self-center`}>
             Do you have an Account ?
           </Text>

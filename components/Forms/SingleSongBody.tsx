@@ -1,24 +1,47 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import React, { FC } from "react";
-import tw from "twrnc";
 import {
-  AntDesign,
-  Ionicons,
-  SimpleLineIcons,
-  FontAwesome,
-  Foundation,
-  Entypo,
-} from "@expo/vector-icons";
-const SingleSongBody = (props) => {
-  const { cover, name, artist, shares, streams } = props;
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import tw from "twrnc";
+import { AntDesign, SimpleLineIcons, Entypo } from "@expo/vector-icons";
+import {
+  useGetPlaylistByUserIdQuery,
+  useGetUserByIdQuery,
+  usePostAddToPlaylistMutation,
+} from "../../redux/services/authorized.service";
+//import { TouchableOpacity } from "react-native-gesture-handler";
+
+const SingleSongBody = (props: any) => {
+  const { cover, name, artistId, shares, streams, song_id, onAudioPress } =
+    props;
+  const { data: userId = {} } = useGetUserByIdQuery(artistId);
+  const { data: playlistList = [] } = useGetPlaylistByUserIdQuery(null);
+  const [addSongToPlaylist] = usePostAddToPlaylistMutation();
+  const [selectedSongId, setSelectedSongId] = useState("");
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    if (userId.hasOwnProperty("id")) {
+      setUserName(userId.username);
+    }
+  }, [userId]);
+
   return (
-    <TouchableOpacity style={tw`flex-row mt-2`}>
+    <TouchableOpacity
+      onPress={onAudioPress}
+      key={song_id}
+      style={tw`flex-row mt-2`}
+    >
       <Image source={{ uri: cover }} style={tw`w-12 h-12 rounded-2xl`} />
       <View style={tw`flex-col w-full `}>
         <View style={tw`flex-row`}>
           <View style={tw`flex-col w-60% pl-5 pb-2`}>
             <Text style={tw`text-base font-semibold`}>{name}</Text>
-            <Text>{artist}</Text>
+            <Text>@{userName}</Text>
           </View>
           <View style={tw`flex-col w-20%`}>
             <View style={tw`flex-row-reverse`}>

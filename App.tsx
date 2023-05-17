@@ -1,9 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import NavContainer from "./components/NavContainer";
-import store from "./redux/store";
+import { store } from "./redux/store";
 
 export default function App() {
   return (
@@ -15,3 +14,5 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+
+//NODE_OPTIONS=--openssl-legacy-provider expo start --web

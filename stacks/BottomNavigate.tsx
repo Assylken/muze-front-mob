@@ -27,10 +27,10 @@ export default function BottomNavigate() {
 
   return (
     <Tab.Navigator
-      tabBarOptions={tabBarOptions}
+      initialRouteName="Explore"
       screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -42,7 +42,7 @@ export default function BottomNavigate() {
               <AntDesign name="home" size={24} color="black" color="#737373" />
             ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Explore"
         component={ExploreScreen}
@@ -57,7 +57,7 @@ export default function BottomNavigate() {
         }}
       />
       <Tab.Screen
-        name="Library"
+        name="Playlists"
         component={LibraryScreen}
         options={{
           headerShown: false,

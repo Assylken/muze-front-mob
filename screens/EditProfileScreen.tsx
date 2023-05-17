@@ -1,32 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Forms/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import InfoStack from "../stacks/InfoStack";
-import * as Animatable from "react-native-animatable";
-import {
-  AuthStackParamList,
-  BottomNavigationStack,
-  MainStackParamList,
-} from "../types";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-} from "react-native";
-import {
-  AntDesign,
-  Ionicons,
-  SimpleLineIcons,
-  FontAwesome,
-  Feather,
-} from "@expo/vector-icons";
+import { MainStackParamList } from "../types";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import CustomTextInput from "../components/Forms/CustomTextInput";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logout } from "../redux/slices/auth";
+import {
+  useGetUserQuery,
+  usePostUpdateUserInfoMutation,
+  useUpdateProfileImageMutation,
+} from "../redux/services/authorized.service";
+import * as ImagePicker from "expo-image-picker";
 
 type IEditProfileScreen = NativeStackScreenProps<
   MainStackParamList,
@@ -34,6 +22,57 @@ type IEditProfileScreen = NativeStackScreenProps<
 >;
 
 const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
+  const [data, setData] = useState<any>([] as any[]);
+  const [countryName, setCountryName] = useState("");
+  const [image, setImage] = useState<any>([] as any[]);
+  const [updateProfileImage] = useUpdateProfileImageMutation();
+
+  const { user } = useAppSelector((state: any) => state.auth);
+  console.log("SAT", user);
+
+  try {
+    const { data } = useGetUserQuery(user);
+    console.log("BET", data);
+
+    useEffect(() => {
+      if (data) setData(data);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  console.log("DONE", data);
+  const dispatch = useAppDispatch();
+  const logout = () => {
+    dispatch(logout);
+    navigation.navigate("ProfileScreen");
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result);
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = async () => {
+    console.log("OMG");
+    const formData = new FormData();
+    formData.append("profileImage", image);
+    updateProfileImage(formData);
+    navigation.navigate("ProfileScreen");
+  };
+
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
       <ScrollView style={tw` w-full`}>
@@ -65,11 +104,25 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
             >
               Change Profile photo
             </Text>
+            {/* <TouchableOpacity onPress={pickImage}>
+              <Text>Pick an image from camera roll</Text>
+            </TouchableOpacity>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 200, height: 200 }}
+              />
+            )} */}
           </View>
         </TouchableOpacity>
         <View style={tw`px-8 mt-3`}>
-          <CustomTextInput placeholderValue={"Anel Amanbekova"} />
-          <CustomTextInput placeholderValue={"8(707)7077070"} />
+          <CustomTextInput
+            placeholderValue={data.firstName ? data.firstName : "John"}
+          />
+          <CustomTextInput
+            placeholderValue={data.lastName ? data.lastName : "Doe"}
+          />
+
           <Button
             containerStyle="flex mr-2 mt-3 w-[100%]"
             style="bg-[#fff] border-2 border-[#5C25F9] mb-3"
@@ -103,7 +156,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
             <AntDesign name="logout" size={24} color="#5C25F9" />
             <Text
               style={tw`font-medium text-base text-[#5C25F9] ml-3`}
-              // onPress={() => navigation.navigate()}
+              onPress={logout}
             >
               Log out
             </Text>

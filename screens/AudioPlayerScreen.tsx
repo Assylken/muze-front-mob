@@ -3,54 +3,29 @@ import {
   Image,
   Text,
   SafeAreaView,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import {
-  FontAwesome,
   AntDesign,
   Feather,
   SimpleLineIcons,
   Ionicons,
 } from "@expo/vector-icons";
-import SearchBar from "../components/Forms/SearchBar";
 import Slider from "@react-native-community/slider";
-import TrackPlayer, {
-  Capability,
-  Event,
-  RepeatMode,
-  State,
-  usePlaybackState,
-  useProgress,
-  useTrackPlayerEvents,
-} from "react-native-track-player";
-import AudioPlayer from "../components/Forms/AudioPlayer";
-// const setupPlayer = async () => {
-//   await TrackPlayer.setupPlayer();
 
-//   await TrackPlayer.add(songs);
-// };
-// const togglePlayback = async (playbackState) => {
-//   const currentTrack = await TrackPlayer.getCurrentTrack();
+interface PlayerProps {
+  onPress: () => void;
+}
 
-//   if (currentTrack !== null) {
-//     if (playbackState === State.Paused) {
-//       await TrackPlayer.play();
-//     } else {
-//       await TrackPlayer.pause();
-//     }
-//   }
-// };
-
-const AudioPlayerScreen = () => {
-  //const playbackState = usePlaybackState();
-  //const progress = useProgress();
-
+const AudioPlayerScreen = ({ onPress }: PlayerProps) => {
   return (
-    <SafeAreaView style={tw`flex-1 bg-white py-8 px-4 self-center w-full`}>
+    <View
+      style={[tw`flex-1 bg-white py-8 px-6   self-center`, { width: "100%" }]}
+    >
       <View style={tw`items-center py-12`}>
+        <AntDesign name="down" size={36} color="black" {...{ onPress }} />
         <View style={tw`self-center w-full items-center`}>
           <Image
             source={require("../assets/images/HarryStyles.png")}
@@ -65,29 +40,20 @@ const AudioPlayerScreen = () => {
           <Slider
             style={tw`w-72 h-8`}
             value={20}
-            //value={progress.position}
             minimumValue={0}
             maximumValue={100}
-            // maximumValue={progress.duration}
             thumbTintColor="#5C25F9"
             minimumTrackTintColor="#5C25F9"
             maximumTrackTintColor="#585858"
-            // onSlidingComplete={async(value)=>{
-            //   await TrackPlayer.seekTo(value);
-            // }}
           />
           <View style={tw`flex flex-row justify-between w-full`}>
             <Text>0:01</Text>
-            {/* {new Date(progress.position * 1000).toISOString().substr(14, 5)} */}
             <Text>3:24</Text>
-            {/* {new Date((progress.duration - progress.position) * 1000).toISOString().substr(14, 5)} */}
           </View>
         </View>
         <View
           style={tw`w-[70%] flex flex-row justify-between self-center pt-12`}
         >
-          {/* <AntDesign name="pausecircle" size={24} color="black" /> */}
-
           <TouchableOpacity>
             <Ionicons
               name="play-skip-back-outline"
@@ -96,13 +62,8 @@ const AudioPlayerScreen = () => {
               style={tw`mt-2`}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => togglePlayback(playbackState)}>
-            <AntDesign
-              //name={playbackState == State.Playing ? "pausecircle" : "play"}
-              name="play"
-              size={48}
-              color="#5C25F9"
-            />
+          <TouchableOpacity>
+            <AntDesign name="play" size={48} color="#5C25F9" />
           </TouchableOpacity>
           <TouchableOpacity>
             <Ionicons
@@ -131,7 +92,7 @@ const AudioPlayerScreen = () => {
           <SimpleLineIcons name="options" size={24} color="black" />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

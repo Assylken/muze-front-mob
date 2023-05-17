@@ -5,6 +5,8 @@ export interface IUser {
 export interface IRegister {
   username: string;
   email: string;
+  isArtist: boolean;
+  countryId: number;
   password: string;
 }
 

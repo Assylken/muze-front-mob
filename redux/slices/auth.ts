@@ -1,17 +1,60 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { IAuth, ILogin, IRegister, IUser } from "../../types";
 import authService from "../services/auth.service";
+import { authHeader } from "../services/auth-header";
+import { API_URL } from "../http";
+import { useAppSelector } from "../hooks";
 
-const initialState: IAuth = {
+const initialState = {
   user: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
 };
+
+// Fetch user
+export const fetchUser = createAsyncThunk<
+  any,
+  any,
+  {
+    rejectValue: string;
+  }
+>("auth/fetchUser", async (user, thunkAPI) => {
+  try {
+    // axios
+    //   .get(API_URL + "/users/me", {
+    //     withCredentials: true,
+    //     headers: authHeader(user),
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    const refetch = await axios.get(API_URL + "/users/me", {
+      withCredentials: true,
+      headers: authHeader(user),
+    });
+    console.log("REFETCH", refetch.data);
+
+    return refetch.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message: string = (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      )(error.response && error.response.data && error.response.data.detail);
+      error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+});
 
 // Register user
 export const register = createAsyncThunk<
@@ -23,11 +66,11 @@ export const register = createAsyncThunk<
 >("auth/register", async (user, thunkAPI) => {
   try {
     const userData = await authService.register(user);
-    console.log(userData);
+    console.log("HAT", userData);
 
     return userData;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if (error instanceof AxiosError) {
       const message: string = (
         error.response &&
         error.response.data &&
@@ -52,7 +95,7 @@ export const login = createAsyncThunk<
 
     return userData;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if (error instanceof AxiosError) {
       const message: string = (
         error.response &&
         error.response.data &&
@@ -68,80 +111,44 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
 
-// export const tokenUpdate = createAsyncThunk(
-//   "auth/tokenUpdate",
-//   async (token, thunkAPI) => {
-//     const userUpdated = await authService.updateAccessToken(token);
-//     return { user: userUpdated };
-//   }
-// );
-
-export const addUser = createAsyncThunk("auth/addUser", async () => {
-  const jsonValue = await AsyncStorage.getItem("user");
-  const user = jsonValue != null ? JSON.parse(jsonValue) : null;
-  console.log(user);
-
-  if (user) {
-    const decodedJwt = jwt_decode(user.access_token) as JwtPayload;
-    if (decodedJwt.exp! * 1000 < Date.now()) {
-      await AsyncStorage.removeItem("user");
-      return { user: null };
-    }
-  }
-
-  return { user };
-});
-
-export const addMessage = createAsyncThunk(
-  "auth/addMessage",
-  (data: string, thunkApi) => {
-    return data;
-  }
-);
-
 export const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: initialState,
   reducers: {
     reset: (state) => {
+      state.user = null;
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
     },
-    clearMessage: (state) => {
-      state.message = "";
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addMessage.fulfilled, (state, action) => {
-        state.message = action.payload;
+      .addCase(fetchUser.fulfilled, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        console.log("payload", action.payload);
+        state.user = action.payload;
       })
-      .addCase(
-        addUser.fulfilled,
-        (state, action: PayloadAction<{ user: IUser }>) => {
-          state.user = action.payload.user;
-          state.isLoading = false;
-        }
-      )
-      .addCase(addUser.pending, (state, action) => {
+      .addCase(fetchUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(addUser.rejected, (state, action) => {
+      .addCase(fetchUser.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
         state.user = null;
       })
-
       .addCase(register.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
       })
-      .addCase(register.rejected, (state, action) => {
+      .addCase(register.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -151,30 +158,24 @@ export const authSlice = createSlice({
       .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
       })
-      .addCase(login.rejected, (state, action) => {
+      .addCase(login.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.user = null;
       })
 
-      // .addCase(tokenUpdate.fulfilled, (state, action) => {
-      //   state.user = action.payload.user;
-      // })
-      // .addCase(tokenUpdate.rejected, (state, action) => {
-      //   state.user = null;
-      // })
-
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.isLoading = false;
       });
   },
 });
 
-export const { reset, clearMessage } = authSlice.actions;
+export const { reset } = authSlice.actions;
 export default authSlice.reducer;

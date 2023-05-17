@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import tw from "twrnc";
 import { AntDesign, SimpleLineIcons, Ionicons } from "@expo/vector-icons";
 
-const AudioPlayer = (props) => {
+const AudioPlayer = (props: any) => {
   const { cover, artist, name } = props;
   return (
     <TouchableOpacity style={tw`flex-row bg-gray-100 p-3 rounded-2xl w-full`}>
@@ -17,12 +17,7 @@ const AudioPlayer = (props) => {
         </View>
         <View style={tw`flex flex-row w-auto items-center`}>
           <TouchableOpacity style={tw`p-2`}>
-            <AntDesign
-              //name={playbackState == State.Playing ? "pausecircle" : "play"}
-              name="play"
-              size={28}
-              color="black"
-            />
+            <AntDesign name="play" size={28} color="black" />
           </TouchableOpacity>
           <TouchableOpacity style={tw`p-2`}>
             <Ionicons

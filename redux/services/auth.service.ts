@@ -5,12 +5,12 @@ import { API_URL } from "../http";
 
 // Register user
 const register = async (userData: IRegister) => {
-  const response = await axios.post(API_URL + "/auth/signup", userData);
-
-  console.log(response);
+  const response = await axios.post(API_URL + "/auth/signup", userData, {
+    withCredentials: true,
+  });
 
   if (response.data) {
-    await AsyncStorage.setItem("user", JSON.stringify(response.data));
+    AsyncStorage.setItem("user", JSON.stringify(response.data));
   }
 
   return response.data;
@@ -19,23 +19,17 @@ const register = async (userData: IRegister) => {
 // Login user
 const login = async (userData: ILogin) => {
   console.log(API_URL);
-  console.log(userData);
-  const response = await axios.post(API_URL + "/auth/signin", userData);
+  console.log("ASDF", userData);
+  const response = await axios.post(API_URL + "/auth/signin", userData, {
+    withCredentials: true,
+  });
 
   if (response.data) {
-    await AsyncStorage.setItem("user", JSON.stringify(response.data));
+    AsyncStorage.setItem("user", JSON.stringify(response.data));
   }
 
   return response.data;
 };
-
-// const updateAccessToken = async (accessToken) => {
-//   const jsonValue = await AsyncStorage.getItem("user");
-//   const user = jsonValue != null ? JSON.parse(jsonValue) : null;
-//   user.access = accessToken;
-//   await AsyncStorage.setItem("user", JSON.stringify(user));
-//   return user;
-// };
 
 // Logout user
 const logout = async () => {
@@ -46,7 +40,6 @@ const authService = {
   register,
   logout,
   login,
-  // updateAccessToken,
 };
 
 export default authService;

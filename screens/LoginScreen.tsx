@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -56,23 +49,17 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
           <CustomTextInput
             placeholderValue="Enter Email"
             inputValue={usernameOrEmailLower}
-            func={(e) => setUsernameOrEmailLower(e)}
+            func={(e: any) => setUsernameOrEmailLower(e)}
           />
           <CustomTextInput
             placeholderValue="Password"
             inputValue={password}
             secure={true}
-            func={(e) => setPassword(e)}
+            func={(e: any) => setPassword(e)}
           />
-          <Text
-            onPress={() => navigation.navigate("RegisterScreen")}
-            style={tw`font-bold text-[#ACACAC] m-3 font-base`}
-          >
-            Forgot Password?
-          </Text>
         </View>
 
-        <View style={tw`flex-1 w-85% -mt-7`}>
+        <View style={tw`flex-1 w-85% -mt-36`}>
           <TouchableOpacity
             style={tw`h-16 w-100% justify-center bg-[#5C25F9] items-center px-4 border-[#5C25F9] rounded-6`}
             onPress={handleLogin}
@@ -81,28 +68,6 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
               Sign In
             </Text>
           </TouchableOpacity>
-
-          <Text style={tw`self-center text-[#1C1B1B] py-6 text-sm`}>Or</Text>
-
-          <View style={tw`flex-row w-80% self-center p-4`}>
-            <View style={tw`flex-1 items-center`}>
-              <TouchableOpacity>
-                <Image
-                  source={require("../assets/images/google-icon.png")}
-                  style={{ height: 27, width: 27 }}
-                />
-              </TouchableOpacity>
-            </View>
-
-            <View style={tw`flex-1 items-center`}>
-              <TouchableOpacity>
-                <Image
-                  source={require("../assets/images/apple-icon.png")}
-                  style={{ height: 27, width: 22 }}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
 
           <Text style={tw`text-[#ACACAC] font-bold text-base mt-3 self-center`}>
             Do not have an Account ?

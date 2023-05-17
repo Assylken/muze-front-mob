@@ -8,7 +8,7 @@ import {
   Text,
   SafeAreaView,
 } from "react-native";
-import React from "react";
+import React, { FC } from "react";
 import tw from "twrnc";
 import * as Animatable from "react-native-animatable";
 import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
@@ -65,7 +65,7 @@ type ILibraryScreen = NativeStackScreenProps<
   BottomNavigationStack,
   "LibraryScreen"
 >;
-const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
+const LibraryScreen = () => {
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <Text style={tw`font-bold text-2xl p-5 ml-2`}>Library</Text>

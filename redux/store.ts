@@ -1,17 +1,33 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  Action,
+  combineReducers,
+  configureStore,
+  ThunkAction,
+} from "@reduxjs/toolkit";
 import authReducer from "./slices/auth";
+import { baseApi } from "./services/baseApi";
 
-const rootReducer = combineReducers({
+const combinedReducers = combineReducers({
   auth: authReducer,
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 
-const store = configureStore({
-  reducer: rootReducer,
-
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
+export const store = configureStore({
+  reducer: combinedReducers,
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware),
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+const makeStore = () => store;
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<typeof combinedReducers>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppState,
+  unknown,
+  Action
+>;
 export type AppDispatch = typeof store.dispatch;
-export default store;
+export type RootState = ReturnType<typeof combineReducers>;

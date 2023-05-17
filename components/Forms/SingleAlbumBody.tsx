@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React, { FC } from "react";
 import tw from "twrnc";
-const SingleAlbumBody = (props) => {
+const SingleAlbumBody = (props: any) => {
   const { cover, name, artist } = props;
   return (
     <View>

@@ -1,22 +1,20 @@
-import {
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
-import React from "react";
+import { FlatList, View, Text, SafeAreaView, ScrollView } from "react-native";
+import React, { useState } from "react";
 import tw from "twrnc";
 import * as Animatable from "react-native-animatable";
+import SingleSongBody from "../components/Forms/SingleSongBody";
 import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { BottomNavigationStack } from "../types";
+import { useGetAllSongsQuery } from "../redux/services/authorized.service";
+import ConnectExploreAndPLayer from "../components/Forms/ConnectExploreAndPLayer";
+import { Audio } from "expo-av";
+import { API_URL } from "../redux/http";
 
-const NEW_ALBUMS = [
+// type IExploreScreen = NativeStackScreenProps<
+//   BottomNavigationStack,
+//   "ExploreScreen"
+// >;
+
+const ALBUM_DATA = [
   {
     img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
     title: "Jeon Jungkook",
@@ -42,79 +40,73 @@ const NEW_ALBUMS = [
     title: "Jeon Jungkook",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
   },
-
-  {
-    img: "https://upload.wikimedia.org/wikipedia/ru/b/b2/Olivia_Rodrigo_-_SOUR.png",
-    title: "Olivia",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
 ];
-const TOP = [
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/0/00/Miley_Cyrus_-_Flowers_%28digital_single%29.png",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/a/a0/HarryStyles-albumcover.png",
-    title: "Lizzo",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
-    title: "Olivia",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/a/a0/HarryStyles-albumcover.png",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/0/00/Miley_Cyrus_-_Flowers_%28digital_single%29.png",
-    title: "Olivia",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/ru/7/72/Stoneyalbum.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/0/00/Miley_Cyrus_-_Flowers_%28digital_single%29.png",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-];
-type IExploreScreen = NativeStackScreenProps<
-  BottomNavigationStack,
-  "ExploreScreen"
->;
 
 const ExploreScreen = () => {
+  const { data } = useGetAllSongsQuery(null);
+  const [currentSong, setCurrentSong] = useState<any>([] as any[]);
+  const [playbackObj, setPlaybackObj] = useState<any>([] as any[]);
+  const [soundObj, setSoundObj] = useState<any>([] as any[]);
+  const [pause, setPause] = useState(false);
+  const enableAudio = async () => {
+    await Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+      staysActiveInBackground: false,
+      shouldDuckAndroid: false,
+    });
+  };
+  const handleAudioPress = async (audio: any) => {
+    enableAudio();
+    console.log(audio);
+    console.log("CUR", soundObj);
+
+    if (soundObj.length === 0) {
+      console.log("Here");
+
+      const playbackObj = new Audio.Sound();
+      const status = await playbackObj.loadAsync(
+        {
+          uri: `https://chris-anatalio.infura-ipfs.io/ipfs/${audio.song_cid}`,
+        },
+        { shouldPlay: true }
+      );
+      setPlaybackObj(playbackObj);
+      setCurrentSong(audio);
+      status.isPlaying = true;
+      setSoundObj(status);
+      return;
+    }
+    if (soundObj.isLoaded && soundObj.isPlaying) {
+      console.log("WHAT");
+
+      const status = await playbackObj.setStatusAsync(
+        { shouldPlay: false },
+        { isPlaying: false }
+      );
+      //status.isPlaying = false;
+      return setSoundObj(status);
+    }
+    if (
+      soundObj.isLoaded &&
+      !soundObj.isPlaying &&
+      currentSong.id === audio.id
+    ) {
+      console.log("Here");
+
+      const status = await playbackObj.playAsync();
+      status.isPlaying = true;
+      return setSoundObj(status);
+    }
+  };
+  console.log(API_URL);
+
   return (
-    <SafeAreaView style={tw`flex-1 bg-white`}>
-      <ScrollView style={tw`pb-5`}>
-        <View style={tw`px-5 pt-3`}>
+    <SafeAreaView style={[tw`flex-1 bg-white`, {}]}>
+      <SafeAreaView style={[tw`bg-white p-5 items-center`, {}]}>
+        <ScrollView style={tw`w-full`}>
           <Text style={tw`font-bold text-2xl mt-4 ml-3`}>New Albums</Text>
           <FlatList
-            data={NEW_ALBUMS}
+            data={ALBUM_DATA}
             horizontal
             renderItem={({ item, index }) => (
               <View style={tw`flex bg-white self-center`}>
@@ -131,58 +123,41 @@ const ExploreScreen = () => {
                 </Animatable.View>
               </View>
             )}
-            keyExtractor={(item) => item.item}
           />
-        </View>
 
-        <View style={tw`px-5 pt-3`}>
-          <Text style={tw`font-bold text-2xl mt-2 ml-3`}>Top 10</Text>
-          <FlatList
-            data={TOP}
-            horizontal
-            renderItem={({ item, index }) => (
-              <View style={tw`flex bg-white self-center`}>
-                <Animatable.View
-                  animation="fadeInUp"
-                  duration={900}
-                  delay={index * 90}
+          <View style={tw`mt-5`}>
+            <FlatList
+              data={data}
+              renderItem={({ item, index }) => (
+                <SafeAreaView
+                  style={tw`flex flex-1 bg-white w-93% self-center`}
                 >
-                  <SingleAlbumBody
-                    cover={item.img}
-                    name={item.title}
-                    artist={item.title}
-                  />
-                </Animatable.View>
-              </View>
-            )}
-            keyExtractor={(item) => item.item}
-          />
-        </View>
-
-        <View style={tw`px-5 pt-3`}>
-          <Text style={tw`font-bold text-2xl mt-2 ml-3`}>Pop Top</Text>
-          <FlatList
-            data={NEW_ALBUMS}
-            horizontal
-            renderItem={({ item, index }) => (
-              <View style={tw`flex bg-white self-center`}>
-                <Animatable.View
-                  animation="fadeInUp"
-                  duration={900}
-                  delay={index * 90}
-                >
-                  <SingleAlbumBody
-                    cover={item.img}
-                    name={item.title}
-                    artist={item.title}
-                  />
-                </Animatable.View>
-              </View>
-            )}
-            keyExtractor={(item) => item.item}
-          />
-        </View>
-      </ScrollView>
+                  <Animatable.View
+                    animation="fadeInLeft"
+                    duration={900}
+                    delay={index * 90}
+                  >
+                    <SingleSongBody
+                      onAudioPress={() => handleAudioPress(item)}
+                      song_id={item.id}
+                      cover={`https://chris-anatalio.infura-ipfs.io/ipfs/${item.image_cid}`}
+                      name={item.name}
+                      artistId={item.userId}
+                      shares="17"
+                      streams="122"
+                    />
+                  </Animatable.View>
+                </SafeAreaView>
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      <ConnectExploreAndPLayer
+        // onAudioPress={() => handleAudioPress(currentSong)}
+        currentSong={currentSong}
+      />
     </SafeAreaView>
   );
 };
