@@ -1,27 +1,12 @@
-import React, { FC, useCallBack, useRef, useState } from "react";
+import React, { FC } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BottomNavigationStack } from "../types";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "../components/Forms/Button";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { Text, View, FlatList, ScrollView } from "react-native";
 import SingleSongBody from "../components/Forms/SingleSongBody";
 import * as Animatable from "react-native-animatable";
 import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
-// import BottomSheet, {
-//   BottomSheetModal,
-//   BottomSheetView,
-//   BottomSheetModalProvider,
-// } from "@gorhom/bottom-sheet";
 
 type IHomeScreen = NativeStackScreenProps<BottomNavigationStack, "HomeScreen">;
 
@@ -147,7 +132,7 @@ const HomeScreen: FC<IHomeScreen> = ({ navigation }) => {
               </Animatable.View>
             </View>
           )}
-          keyExtractor={(item) => item.item}
+          keyExtractor={(item) => item.id}
         />
         {/* <BottomSheet ref={sheetRef} snapPoints={snapPoints}>
           <BottomSheetView>

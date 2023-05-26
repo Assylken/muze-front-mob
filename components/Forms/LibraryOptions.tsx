@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { FC } from "react";
+import React from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 const LibraryOptions = (props: any) => {

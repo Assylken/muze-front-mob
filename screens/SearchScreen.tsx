@@ -1,13 +1,7 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
-import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import SearchBar from "../components/Forms/SearchBar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { BottomNavigationStack } from "../types";

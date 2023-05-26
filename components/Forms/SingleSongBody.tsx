@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "twrnc";
-import { AntDesign, SimpleLineIcons, Entypo } from "@expo/vector-icons";
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import * as Animatable from "react-native-animatable";
 import Toast from "react-native-toast-message";
 

@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import React, { FC } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import React, from "react";
 import tw from "twrnc";
 const PlaylistView = (props: any) => {
   const { cover, name } = props;

@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import React, { FC } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import React from "react";
 import tw from "twrnc";
-import { AntDesign, SimpleLineIcons, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 const AudioPlayer = (props: any) => {
   const { cover, artist, name } = props;

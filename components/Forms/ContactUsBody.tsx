@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { FC } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import React from "react";
 import tw from "twrnc";
-import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const ContactUsBody = (props: any) => {

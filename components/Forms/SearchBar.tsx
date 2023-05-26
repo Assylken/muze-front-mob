@@ -1,8 +1,7 @@
-import { View, Text, TextInput } from "react-native";
-import React, { FC } from "react";
+import { View, TextInput } from "react-native";
+import React from "react";
 import tw from "twrnc";
 import { FontAwesome } from "@expo/vector-icons";
-import CustomTextInput from "./CustomTextInput";
 
 const SearchBar = (props: any) => {
   const { placeholderText } = props;

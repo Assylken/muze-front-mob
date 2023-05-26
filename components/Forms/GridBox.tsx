@@ -1,13 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { FC } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
 import tw from "twrnc";
-import {
-  AntDesign,
-  Ionicons,
-  SimpleLineIcons,
-  FontAwesome,
-  Foundation,
-} from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 const GridBox = (props: any) => {
   const { iconName, iconColor, value, unit, func } = props;
   return (

@@ -1,8 +1,4 @@
-import {
-  AuthStackParamList,
-  MainStackParamList,
-  InfoNavigationStack,
-} from "../types";
+import { InfoNavigationStack } from "../types";
 import { ScrollView } from "react-native";
 import * as React from "react";
 import tw from "twrnc";

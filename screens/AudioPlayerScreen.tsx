@@ -1,10 +1,4 @@
-import {
-  View,
-  Image,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Image, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import {

@@ -5,36 +5,22 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
-  FlatList,
-  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "twrnc";
-import { AntDesign, SimpleLineIcons, Entypo } from "@expo/vector-icons";
-import * as Animatable from "react-native-animatable";
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 
 import {
   useDeleteSongFromPlaylistMutation,
-  useGetPlaylistByUserIdQuery,
   useGetUserByIdQuery,
   usePostAddToPlaylistMutation,
 } from "../../redux/services/authorized.service";
 
 const SinglePlaylistSongBody = (props: any) => {
-  const {
-    cover,
-    name,
-    artistId,
-    streams,
-    song_id,
-    playlistId,
-    onAudioPress,
-    isPlaying,
-  } = props;
+  const { cover, name, artistId, streams, song_id, playlistId, onAudioPress } =
+    props;
   const { data: userId = {} } = useGetUserByIdQuery(artistId);
-
-  const [addSongToPlaylist] = usePostAddToPlaylistMutation();
 
   const [userName, setUserName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);

@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import React, { FC } from "react";
+import { Text, TouchableOpacity, Image } from "react-native";
+import React from "react";
 import tw from "twrnc";
 const SingleAlbumBody = (props: any) => {
   const { cover, name, description, id, navigation } = props;
