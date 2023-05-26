@@ -14,5 +14,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-//NODE_OPTIONS=--openssl-legacy-provider expo start --web

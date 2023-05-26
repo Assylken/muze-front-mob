@@ -7,6 +7,7 @@ import { AuthStackParamList } from "../types";
 import tw from "twrnc";
 import { useAppDispatch } from "../redux/hooks";
 import { login } from "../redux/slices/auth";
+import Toast from "react-native-toast-message";
 import CustomTextInput from "../components/Forms/CustomTextInput";
 
 type ILoginScreen = NativeStackScreenProps<AuthStackParamList, "LoginScreen">;
@@ -18,19 +19,35 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const handleLogin = async () => {
-    console.log("HE");
     const usernameOrEmail = usernameOrEmailLower.toLowerCase();
-    console.log(usernameOrEmail);
     const payload = {
       usernameOrEmail,
       password,
     };
-    console.log(payload);
 
-    dispatch(login(payload));
+    try {
+      await dispatch(login(payload)).then((val) => {
+        if (val.payload === undefined) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Incorrect credentials",
+          });
+        } else
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Welcome",
+          });
+      });
+    } catch (e) {
+      setErrorMsg("Incorrect credentials");
+      console.log("EEEE", e);
+    }
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
+      <Toast position="top" />
       <View
         style={tw`flex-1 pt-10% pb-3 py-8 h-100% bg-[#fff] items-center justify-center`}
       >
@@ -44,7 +61,7 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
             </Text>
           </View>
         </View>
-
+        {errorMsg && <Text>{errorMsg}</Text>}
         <View style={tw`flex-1 w-85% -mt-4`}>
           <CustomTextInput
             placeholderValue="Enter Email"

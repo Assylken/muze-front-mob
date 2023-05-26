@@ -1,34 +1,73 @@
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TouchableOpacity,
-  TouchableWithoutFeedback,
+  Modal,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import { AntDesign, SimpleLineIcons, Entypo } from "@expo/vector-icons";
+import * as Animatable from "react-native-animatable";
+import Toast from "react-native-toast-message";
+
 import {
   useGetPlaylistByUserIdQuery,
   useGetUserByIdQuery,
   usePostAddToPlaylistMutation,
 } from "../../redux/services/authorized.service";
-//import { TouchableOpacity } from "react-native-gesture-handler";
 
 const SingleSongBody = (props: any) => {
-  const { cover, name, artistId, shares, streams, song_id, onAudioPress } =
+  const { cover, name, artistId, streams, song_id, onAudioPress, isPlaying } =
     props;
   const { data: userId = {} } = useGetUserByIdQuery(artistId);
   const { data: playlistList = [] } = useGetPlaylistByUserIdQuery(null);
+
   const [addSongToPlaylist] = usePostAddToPlaylistMutation();
-  const [selectedSongId, setSelectedSongId] = useState("");
+
   const [userName, setUserName] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSongId, setSelectedSongId] = useState("");
+
   useEffect(() => {
     if (userId.hasOwnProperty("id")) {
       setUserName(userId.username);
     }
   }, [userId]);
+
+  const handleSubmit = async (id: any) => {
+    const formData = new FormData();
+    console.log("ID", id);
+    console.log("SELECTEDSONG", selectedSongId);
+
+    formData.append("playlistId", id);
+    formData.append("songId", selectedSongId);
+
+    console.log("FOMR", formData);
+
+    await addSongToPlaylist({ playlistId: id, songId: selectedSongId }).then(
+      (val: any) => {
+        console.log("pay", val);
+
+        if (!val.data) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "This song is already in your playlist",
+          });
+        } else
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Song added",
+          });
+      }
+    );
+    setModalOpen(false);
+  };
 
   return (
     <TouchableOpacity
@@ -37,41 +76,137 @@ const SingleSongBody = (props: any) => {
       style={tw`flex-row mt-2`}
     >
       <Image source={{ uri: cover }} style={tw`w-12 h-12 rounded-2xl`} />
+
       <View style={tw`flex-col w-full `}>
         <View style={tw`flex-row`}>
           <View style={tw`flex-col w-60% pl-5 pb-2`}>
             <Text style={tw`text-base font-semibold`}>{name}</Text>
             <Text>@{userName}</Text>
           </View>
-          <View style={tw`flex-col w-20%`}>
-            <View style={tw`flex-row-reverse`}>
-              <TouchableOpacity style={tw`flex-row-reverse `}>
-                <SimpleLineIcons name="options" size={16} color="black" />
-              </TouchableOpacity>
+          <View
+            style={[
+              tw`flex-row w-20%`,
+              { justifyContent: "center", alignSelf: "center" },
+            ]}
+          >
+            <View
+              style={[
+                tw`flex-row`,
+                { justifyContent: "center", alignSelf: "center" },
+              ]}
+            >
+              <AntDesign name="playcircleo" size={14} color="black" />
+              <Text style={tw`ml-2`}>{streams}</Text>
             </View>
-            <View style={tw`flex-row pt-2`}>
-              <Entypo
-                name="share"
-                size={14}
-                color="black"
-                style={tw`ml-1 mt-1`}
-              />
-              <Text style={tw`ml-1`}>{shares}</Text>
-              <AntDesign
-                name="playcircleo"
-                size={14}
-                color="black"
-                style={tw`ml-1 mt-1`}
-              />
-              <Text style={tw`ml-1`}>{streams}</Text>
+            <View
+              style={[
+                tw`flex ml-4 h-8 w-8`,
+                { justifyContent: "center", alignSelf: "center" },
+              ]}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedSongId(song_id);
+                  setModalOpen(true);
+                }}
+                style={tw`flex-row-reverse `}
+              >
+                <SimpleLineIcons name="options" size={20} color="black" />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-
         <View style={tw`bg-[#D3D3D3] h-0.2 w-80% ml-3`}></View>
+      </View>
+      <View style={styles.container}>
+        <Modal animationType="slide" transparent={true} visible={modalOpen}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>
+                Choose playlist to add this song
+              </Text>
+              <View style={{ width: "100%", paddingHorizontal: 12 }}>
+                <View style={tw`mt-5`}>
+                  <FlatList
+                    data={playlistList}
+                    renderItem={({ item, index }) => (
+                      <SafeAreaView style={tw`bg-white self-start`}>
+                        <Animatable.View
+                          animation="fadeInLeft"
+                          duration={900}
+                          delay={index * 90}
+                        >
+                          <TouchableOpacity
+                            style={tw`pt-2`}
+                            onPress={() => handleSubmit(item.id)}
+                          >
+                            <Text style={tw`text-xl font-semibold`}>
+                              {index + 1}. {item.playlist_name}
+                            </Text>
+                          </TouchableOpacity>
+                        </Animatable.View>
+                      </SafeAreaView>
+                    )}
+                    keyExtractor={(item) => item.id}
+                  />
+                </View>
+              </View>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end",
+                  paddingBottom: 8,
+                }}
+                onPress={() => setModalOpen(false)}
+              >
+                <Text style={tw`text-xl font-semibold`}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    width: "60%",
+    height: "50%",
+    backgroundColor: "white",
+    borderRadius: 5,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
+  modalText: {
+    fontWeight: "bold",
+    fontSize: 16,
+    marginTop: 10,
+    paddingHorizontal: 24,
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  shadow: {
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 4,
+  },
+});
 
 export default SingleSongBody;

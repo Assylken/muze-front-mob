@@ -1,53 +1,41 @@
-import { FlatList, View, Text, SafeAreaView, ScrollView } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  Animated,
+  StyleSheet,
+} from "react-native";
 import React, { useState } from "react";
 import tw from "twrnc";
 import * as Animatable from "react-native-animatable";
 import SingleSongBody from "../components/Forms/SingleSongBody";
-import SingleAlbumBody from "../components/Forms/SingleAlbumBody";
-import { useGetAllSongsQuery } from "../redux/services/authorized.service";
-import ConnectExploreAndPLayer from "../components/Forms/ConnectExploreAndPLayer";
+import {
+  useAddCurrentPlaysMutation,
+  useGetAllSongsQuery,
+} from "../redux/services/authorized.service";
 import { Audio } from "expo-av";
-import { API_URL } from "../redux/http";
-
-// type IExploreScreen = NativeStackScreenProps<
-//   BottomNavigationStack,
-//   "ExploreScreen"
-// >;
-
-const ALBUM_DATA = [
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/3/38/Lizzo_-_Special.png",
-    title: "Lizzo",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/ru/b/b2/Olivia_Rodrigo_-_SOUR.png",
-    title: "Olivia",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-  {
-    img: "https://upload.wikimedia.org/wikipedia/en/e/e2/BTS%2C_Love_Yourself_Answer%2C_album_cover.jpg",
-    title: "Jeon Jungkook",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing eli.",
-  },
-];
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
+import { play, pause, resume, playNext } from "../controller/AudioController";
 
 const ExploreScreen = () => {
   const { data } = useGetAllSongsQuery(null);
   const [currentSong, setCurrentSong] = useState<any>([] as any[]);
   const [playbackObj, setPlaybackObj] = useState<any>([] as any[]);
   const [soundObj, setSoundObj] = useState<any>([] as any[]);
-  const [pause, setPause] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentID, setCurrentID] = useState(-1);
+  const [addCurrentPlays] = useAddCurrentPlaysMutation();
+
+  const countCurrent = async (value: any) => {
+    console.log("ALAOOAOAOA", value);
+
+    addCurrentPlays({ songId: value.id, plays: 1 });
+  };
+
   const enableAudio = async () => {
     await Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
@@ -57,109 +45,191 @@ const ExploreScreen = () => {
   };
   const handleAudioPress = async (audio: any) => {
     enableAudio();
-    console.log(audio);
-    console.log("CUR", soundObj);
+    //console.log(audio);
+    //console.log("CUR", soundObj);
 
     if (soundObj.length === 0) {
-      console.log("Here");
-
+      console.log("Play");
       const playbackObj = new Audio.Sound();
-      const status = await playbackObj.loadAsync(
-        {
-          uri: `https://chris-anatalio.infura-ipfs.io/ipfs/${audio.song_cid}`,
-        },
-        { shouldPlay: true }
+      const status = await play(
+        playbackObj,
+        `https://chris-anatalio.infura-ipfs.io/ipfs/${audio.song_cid}`
       );
+
       setPlaybackObj(playbackObj);
       setCurrentSong(audio);
       status.isPlaying = true;
       setSoundObj(status);
+      setIsPlaying(true);
       return;
     }
-    if (soundObj.isLoaded && soundObj.isPlaying) {
-      console.log("WHAT");
 
-      const status = await playbackObj.setStatusAsync(
-        { shouldPlay: false },
-        { isPlaying: false }
-      );
-      //status.isPlaying = false;
+    if (
+      soundObj.isLoaded &&
+      soundObj.isPlaying &&
+      currentSong.id === audio.id
+    ) {
+      console.log("Pause");
+
+      const status = await pause(playbackObj);
+      setIsPlaying(false);
       return setSoundObj(status);
     }
+
     if (
       soundObj.isLoaded &&
       !soundObj.isPlaying &&
       currentSong.id === audio.id
     ) {
-      console.log("Here");
+      console.log("Resume");
 
-      const status = await playbackObj.playAsync();
+      const status = await resume(playbackObj);
       status.isPlaying = true;
+      setIsPlaying(true);
       return setSoundObj(status);
     }
+
+    if (soundObj.isLoaded && currentSong.id !== audio.id) {
+      countCurrent(audio);
+
+      const status = await playNext(
+        playbackObj,
+        `https://chris-anatalio.infura-ipfs.io/ipfs/${audio.song_cid}`
+      );
+      setCurrentSong(audio);
+      status.isPlaying = true;
+      setSoundObj(status);
+      setIsPlaying(true);
+    }
   };
-  console.log(API_URL);
+
+  const { div } = styles;
+  let sz = 0;
+  if (data) sz = Object.keys(data).length;
 
   return (
-    <SafeAreaView style={[tw`flex-1 bg-white`, {}]}>
-      <SafeAreaView style={[tw`bg-white p-5 items-center`, {}]}>
-        <ScrollView style={tw`w-full`}>
-          <Text style={tw`font-bold text-2xl mt-4 ml-3`}>New Albums</Text>
-          <FlatList
-            data={ALBUM_DATA}
-            horizontal
-            renderItem={({ item, index }) => (
-              <View style={tw`flex bg-white self-center`}>
-                <Animatable.View
-                  animation="fadeInUp"
-                  duration={900}
-                  delay={index * 90}
-                >
-                  <SingleAlbumBody
-                    cover={item.img}
-                    name={item.title}
-                    artist={item.title}
-                  />
-                </Animatable.View>
-              </View>
-            )}
-          />
+    <SafeAreaView style={[tw`bg-white p-5 items-center h-100%`]}>
+      <Text style={tw`font-bold text-2xl mt-4 ml-3`}>Explore New Songs</Text>
+      <Toast position="top" />
 
-          <View style={tw`mt-5`}>
-            <FlatList
-              data={data}
-              renderItem={({ item, index }) => (
-                <SafeAreaView
-                  style={tw`flex flex-1 bg-white w-93% self-center`}
-                >
-                  <Animatable.View
-                    animation="fadeInLeft"
-                    duration={900}
-                    delay={index * 90}
-                  >
-                    <SingleSongBody
-                      onAudioPress={() => handleAudioPress(item)}
-                      song_id={item.id}
-                      cover={`https://chris-anatalio.infura-ipfs.io/ipfs/${item.image_cid}`}
-                      name={item.name}
-                      artistId={item.userId}
-                      shares="17"
-                      streams="122"
-                    />
-                  </Animatable.View>
-                </SafeAreaView>
-              )}
-              keyExtractor={(item) => item.id}
+      <View style={tw`mt-5`}>
+        <FlatList
+          data={data}
+          renderItem={({ item, index }) => (
+            <SafeAreaView style={tw`flex flex-1 bg-white w-93% self-center`}>
+              <Animatable.View
+                animation="fadeInLeft"
+                duration={900}
+                delay={index * 90}
+              >
+                <SingleSongBody
+                  onAudioPress={() => {
+                    console.log("SZ_ID", sz - item.id);
+                    setCurrentID(sz - item.id);
+                    handleAudioPress(item);
+                  }}
+                  song_id={item.id}
+                  cover={`https://chris-anatalio.infura-ipfs.io/ipfs/${item.image_cid}`}
+                  name={item.name}
+                  artistId={item.userId}
+                  shares="17"
+                  streams={item.plays}
+                  isPlaying={isPlaying}
+                />
+              </Animatable.View>
+            </SafeAreaView>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+      <Animated.View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <TouchableOpacity style={tw`flex-1 pt-4 w-100%`}>
+          <View
+            style={[
+              tw`flex flex-row p-2 items-center border border-gray-300 rounded-lg`,
+              div,
+            ]}
+          >
+            <Image
+              source={
+                currentSong.image_cid
+                  ? {
+                      uri: `https://chris-anatalio.infura-ipfs.io/ipfs/${currentSong.image_cid}`,
+                    }
+                  : require("../assets/images/song_placeholder.png")
+              }
+              style={tw`w-12 h-12 rounded-2xl`}
             />
+            <View style={{ marginTop: 16 }}>
+              <Text style={tw`text-lg`}>{currentSong && currentSong.name}</Text>
+              <Text style={tw`text-lg`}>{!currentSong && "Undefined"}</Text>
+            </View>
+
+            <View style={tw`flex flex-row w-auto items-center`}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (currentID - 1 == -1) {
+                    setCurrentID(0);
+                    handleAudioPress(data[0]);
+                  } else {
+                    setCurrentID((prevState) => prevState - 1);
+                    handleAudioPress(data[currentID - 1]);
+                  }
+                  console.log("BACK", currentID - 1);
+                }}
+                style={tw`p-2`}
+              >
+                <AntDesign name="banckward" size={22} color="black" />
+              </TouchableOpacity>
+              {!isPlaying ? (
+                <TouchableOpacity
+                  onPress={() => handleAudioPress(currentSong)}
+                  style={tw`p-2`}
+                >
+                  <FontAwesome name="play" size={24} color="black" />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => handleAudioPress(currentSong)}
+                  style={tw`p-2`}
+                >
+                  <AntDesign name="pause" size={26} color="black" />
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity
+                onPress={() => {
+                  if (currentID + 1 == sz) {
+                    setCurrentID(0);
+                    handleAudioPress(data[0]);
+                  } else {
+                    setCurrentID((prevState) => prevState + 1);
+                    handleAudioPress(data[currentID + 1]);
+                  }
+                  console.log("Front", currentID + 1);
+                }}
+                style={tw`p-2`}
+              >
+                <AntDesign name="forward" size={22} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-      <ConnectExploreAndPLayer
-        // onAudioPress={() => handleAudioPress(currentSong)}
-        currentSong={currentSong}
-      />
+        </TouchableOpacity>
+      </Animated.View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  div: {
+    justifyContent: "space-between",
+  },
+});
 
 export default ExploreScreen;

@@ -1,17 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text } from "react-native";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../redux/hooks";
 import AuthStack from "../stacks/AuthStack";
 import BottomNavigate from "../stacks/BottomNavigate";
-import SearchScreen from "../screens/SearchScreen";
-
 const NavContainer = () => {
-  const dispatch = useAppDispatch();
-
-  const { user, isLoading, isError, isSuccess, message } = useAppSelector(
-    (state: any) => state.auth
-  );
+  const { user, isLoading } = useAppSelector((state: any) => state.auth);
 
   if (isLoading) {
     return (
@@ -20,11 +14,10 @@ const NavContainer = () => {
       </View>
     );
   }
-  console.log("YSER", user);
 
   return (
     <NavigationContainer>
-      {user === null ? <BottomNavigate /> : <AuthStack />}
+      {user !== null ? <BottomNavigate /> : <AuthStack />}
     </NavigationContainer>
   );
 };

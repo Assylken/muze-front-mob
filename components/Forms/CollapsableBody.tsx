@@ -6,10 +6,9 @@ import {
   Collapse,
   CollapseHeader,
   CollapseBody,
-  AccordionList,
 } from "accordion-collapse-react-native";
 
-const CollapsableBody = (props) => {
+const CollapsableBody = (props: any) => {
   const { title, mainText } = props;
   return (
     <Collapse

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { FC } from "react";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
-const LibraryOptions = (props) => {
+const LibraryOptions = (props: any) => {
   const { optionText } = props;
   return (
     <TouchableOpacity style={tw`flex-row mt-2`}>

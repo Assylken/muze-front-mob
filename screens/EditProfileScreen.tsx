@@ -1,20 +1,40 @@
-import React, { FC, useEffect, useState } from "react";
-import tw from "twrnc";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "../components/Forms/Button";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../types";
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import { AntDesign, Ionicons, Feather } from "@expo/vector-icons";
 import CustomTextInput from "../components/Forms/CustomTextInput";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/slices/auth";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { FC } from "react";
+import tw from "twrnc";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import Toast from "react-native-toast-message";
+import * as DocumentPicker from "expo-document-picker";
+
 import {
   useGetUserQuery,
   usePostUpdateUserInfoMutation,
   useUpdateProfileImageMutation,
 } from "../redux/services/authorized.service";
-import * as ImagePicker from "expo-image-picker";
+
+const EditProfileSchema = Yup.object().shape({
+  firstName: Yup.string(),
+  lastName: Yup.string(),
+  bio: Yup.string(),
+  username: Yup.string(),
+  countryId: Yup.string(),
+});
 
 type IEditProfileScreen = NativeStackScreenProps<
   MainStackParamList,
@@ -22,18 +42,31 @@ type IEditProfileScreen = NativeStackScreenProps<
 >;
 
 const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
+  const { shadow } = styles;
+  const [updateProfileInfo] = usePostUpdateUserInfoMutation();
   const [data, setData] = useState<any>([] as any[]);
-  const [countryName, setCountryName] = useState("");
   const [image, setImage] = useState<any>([] as any[]);
   const [updateProfileImage] = useUpdateProfileImageMutation();
+  const [fileDataImage, setFileDataImage] = useState<any>([] as any[]);
 
   const { user } = useAppSelector((state: any) => state.auth);
   console.log("SAT", user);
-
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(EditProfileSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      bio: "",
+      countryId: "",
+    },
+  });
   try {
     const { data } = useGetUserQuery(user);
-    console.log("BET", data);
-
     useEffect(() => {
       if (data) setData(data);
     });
@@ -41,40 +74,83 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
     console.log(error);
   }
 
-  console.log("DONE", data);
   const dispatch = useAppDispatch();
-  const logout = () => {
+  const logoutFromAccount = async () => {
     dispatch(logout);
-    navigation.navigate("ProfileScreen");
   };
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+  const onSubmit = async (values: any) => {
+    console.log("WHAHTATA");
+
+    if (values.firstName == "") values.firstName = data.firstName;
+    if (values.lastName == "") values.lastName = data.lastName;
+    if (values.bio == "") values.bio = data.bio;
+    if (values.username == "") values.username = data.username;
+    if (values.countryId == "") values.countryId = "" + data.countryId;
+
+    await updateProfileInfo(values).then((val: any) => {
+      console.log("pay", val);
+
+      if (!val.data) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Something went wrong",
+        });
+      } else {
+        navigation.navigate("ProfileScreen");
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Profile edited",
+        });
+      }
     });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result);
-      handleSubmit();
-    }
   };
 
-  const handleSubmit = async () => {
-    console.log("OMG");
+  const pickImage = async (values: any) => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    console.log("RESUSS", result);
+    setFileDataImage(result);
+  };
+
+  const onSubmitAvatar = async (values: any) => {
     const formData = new FormData();
-    formData.append("profileImage", image);
-    updateProfileImage(formData);
-    navigation.navigate("ProfileScreen");
+    console.log("file", fileDataImage);
+
+    if (fileDataImage.length === 0) {
+      Toast.show({
+        type: "error",
+        text1: "Warning",
+        text2: "You didn't upload any picture",
+      });
+    } else {
+      formData.append("profileImage", fileDataImage);
+      console.log("FILEDATA", fileDataImage);
+      await updateProfileImage(formData).then((val: any) => {
+        console.log("pay", val);
+        navigation.navigate("ProfileScreen");
+        if (!val.data) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Something went wrong",
+          });
+        } else
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Profile avatar updated",
+          });
+      });
+
+      setFileDataImage(null);
+    }
   };
 
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
+      <Toast position="top" />
       <ScrollView style={tw` w-full`}>
         <TouchableOpacity
           style={tw`mt-8 ml-10 flex-row`}
@@ -88,49 +164,95 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
           />
           <Text style={tw`font-bold text-2xl`}>Edit Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={tw`items-center mt-8`}>
+        <TouchableOpacity onPress={pickImage} style={tw`items-center mt-4`}>
           <Image
-            style={tw`w-30 h-30 rounded-full`}
             source={
-              require("../assets/images/profile.jpg")
-              //source={{ uri: params.userInfo.profileImage }}
+              data.profileImage === "null"
+                ? require("../assets/images/song_placeholder.png")
+                : { uri: data.profileImage }
             }
+            style={tw`w-30 h-30 rounded-full`}
           />
-          <View style={tw`flex-row mt-2`}>
-            <AntDesign name="edit" size={24} color="black" />
-            <Text
-              style={tw`font-medium text-base ml-3`}
-              // onPress={() => navigation.navigate()}
-            >
-              Change Profile photo
-            </Text>
-            {/* <TouchableOpacity onPress={pickImage}>
-              <Text>Pick an image from camera roll</Text>
-            </TouchableOpacity>
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
-              />
-            )} */}
-          </View>
+          {fileDataImage ? <Text>{fileDataImage.name}</Text> : null}
         </TouchableOpacity>
-        <View style={tw`px-8 mt-3`}>
-          <CustomTextInput
-            placeholderValue={data.firstName ? data.firstName : "John"}
-          />
-          <CustomTextInput
-            placeholderValue={data.lastName ? data.lastName : "Doe"}
-          />
+        <TouchableOpacity
+          onPress={onSubmitAvatar}
+          style={tw`h-10 items-center justify-center self-center px-4 py-2 bg-[#5C25F9] border-[#5C25F9] rounded-6`}
+        >
+          <Text style={tw`font-medium text-base  text-white`}>
+            Change Profile photo
+          </Text>
+        </TouchableOpacity>
+        <View style={tw`px-`}>
+          <View>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CustomTextInput
+                  placeholderValue={
+                    data && data.username ? data.username : "unknown"
+                  }
+                  inputValue={value}
+                  onBlur={onBlur}
+                  func={onChange}
+                />
+              )}
+              name="username"
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CustomTextInput
+                  placeholderValue={
+                    data && data.firstName ? data.firstName : "John"
+                  }
+                  inputValue={value}
+                  onBlur={onBlur}
+                  func={onChange}
+                />
+              )}
+              name="firstName"
+            />
 
-          <Button
-            containerStyle="flex mr-2 mt-3 w-[100%]"
-            style="bg-[#fff] border-2 border-[#5C25F9] mb-3"
-            textStyle="text-[#5C25F9] font-bold text-lg"
-            onPress={() => navigation.navigate("EditProfileScreen")}
-          >
-            Save
-          </Button>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CustomTextInput
+                  placeholderValue={
+                    data && data.lastName ? data.lastName : "Doe"
+                  }
+                  inputValue={value}
+                  onBlur={onBlur}
+                  func={onChange}
+                />
+              )}
+              name="lastName"
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <CustomTextInput
+                  placeholderValue={data && data.bio ? data.bio : "unknown"}
+                  inputValue={value}
+                  onBlur={onBlur}
+                  func={onChange}
+                />
+              )}
+              name="bio"
+            />
+            <TouchableOpacity
+              style={tw`h-12 w-100% justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
+              onPress={handleSubmit(onSubmit)}
+            >
+              <Text style={[tw`text-white text-lg font-bold`, shadow]}>
+                Edit
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={tw`flex-col mx-8`}>
@@ -156,7 +278,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
             <AntDesign name="logout" size={24} color="#5C25F9" />
             <Text
               style={tw`font-medium text-base text-[#5C25F9] ml-3`}
-              onPress={logout}
+              onPress={logoutFromAccount}
             >
               Log out
             </Text>
@@ -166,5 +288,13 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  shadow: {
+    textShadowColor: "rgba(0, 0, 0, 0.25)",
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 4,
+  },
+});
 
 export default EditProfileScreen;

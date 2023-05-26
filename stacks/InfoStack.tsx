@@ -1,21 +1,11 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import InfoScreen from "../screens/InfoScreen";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import ContactUsScreen from "../screens/ContacUsScreen";
-import {
-  AuthStackParamList,
-  MainStackParamList,
-  InfoNavigationStack,
-} from "../types";
+import { InfoNavigationStack } from "../types";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  AntDesign,
-  Ionicons,
-  SimpleLineIcons,
-  FontAwesome,
-} from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const Stack = createMaterialTopTabNavigator<InfoNavigationStack>();
 

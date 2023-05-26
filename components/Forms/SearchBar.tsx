@@ -4,7 +4,7 @@ import tw from "twrnc";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomTextInput from "./CustomTextInput";
 
-const SearchBar = (props) => {
+const SearchBar = (props: any) => {
   const { placeholderText } = props;
   return (
     <>

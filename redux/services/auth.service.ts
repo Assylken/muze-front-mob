@@ -33,7 +33,9 @@ const login = async (userData: ILogin) => {
 
 // Logout user
 const logout = async () => {
-  await AsyncStorage.removeItem("user");
+  console.log("I AM NOT HERE");
+
+  AsyncStorage.removeItem("user");
 };
 
 const authService = {

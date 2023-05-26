@@ -6,6 +6,7 @@ import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Forms/Button";
 import { AntDesign } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 type IWelcomeScreen = NativeStackScreenProps<
   AuthStackParamList,
@@ -18,6 +19,8 @@ const WelcomeScreen: FC<IWelcomeScreen> = ({ navigation }) => {
     <SafeAreaView
       style={tw`flex flex-col flex-1 items-center justify-start relative bg-white px-4`}
     >
+      <Toast position="top" />
+
       <Image
         style={tw`w-64 h-64`}
         source={require("../assets/images/logo.png")}

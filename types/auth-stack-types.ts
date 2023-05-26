@@ -1,5 +1,3 @@
-import { State } from "@web3auth/react-native-sdk";
-
 export type AuthStackParamList = {
   WelcomeScreen: undefined;
   LoginScreen: undefined;
@@ -10,8 +8,7 @@ export type MainStackParamList = {
   ProfileScreen: undefined;
   EditProfileScreen: undefined;
   SettingsScreen: undefined;
-  FollowersScreen: undefined;
-  FollowingScreen: undefined;
+  InfoScreen: undefined;
 };
 
 export type InfoNavigationStack = {
@@ -19,9 +16,18 @@ export type InfoNavigationStack = {
   ContactUsScreen: undefined;
 };
 
+export type PlaylistNavigationStackList = {
+  LibraryScreen: undefined;
+  PlaylistLayout: {
+    playlistID: number;
+    playlistName: string;
+    playlistDesc: string;
+    playlistCover: string;
+  };
+};
+
 export type BottomNavigationStack = {
   HomeScreen: undefined;
   ExploreScreen: undefined;
-  LibraryScreen: undefined;
   SearchScreen: undefined;
 };

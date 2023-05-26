@@ -8,7 +8,7 @@ import {
   FontAwesome,
   Foundation,
 } from "@expo/vector-icons";
-const GridBox = (props) => {
+const GridBox = (props: any) => {
   const { iconName, iconColor, value, unit, func } = props;
   return (
     <TouchableOpacity

@@ -19,26 +19,17 @@ const initialState = {
 // Fetch user
 export const fetchUser = createAsyncThunk<
   any,
-  any,
+  void,
   {
     rejectValue: string;
   }
->("auth/fetchUser", async (user, thunkAPI) => {
+>("auth/fetchUser", async (_, thunkAPI) => {
   try {
-    // axios
-    //   .get(API_URL + "/users/me", {
-    //     withCredentials: true,
-    //     headers: authHeader(user),
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    const refetch = await axios.get(API_URL + "/users/me", {
+    console.log("Common");
+
+    const refetch = await axios.get(API_URL + "users/me", {
       withCredentials: true,
-      headers: authHeader(user),
+      headers: await authHeader(),
     });
     console.log("REFETCH", refetch.data);
 
@@ -108,6 +99,10 @@ export const login = createAsyncThunk<
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {
+  //await axios.post("auth/logout");
+  AsyncStorage.removeItem("user");
+  //await axios.post(API_URL + "auth/logout");
+
   await authService.logout();
 });
 

@@ -1,18 +1,10 @@
-import {
-  AuthStackParamList,
-  MainStackParamList,
-  InfoNavigationStack,
-} from "../types";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import { React, useState } from "react";
+import { InfoNavigationStack } from "../types";
+import { ScrollView } from "react-native";
+import React from "react";
 import tw from "twrnc";
 import { SafeAreaView } from "react-native-safe-area-context";
-import InfoTabLayout from "../components/Forms/InfoTabLayout";
-import { AntDesign } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
-import InfoNavigate from "../stacks/InfoNavigate";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CollapsableBody from "../components/Forms/CollapsableBody";
 
 type IInfoScreen = NativeStackScreenProps<InfoNavigationStack, "InfoScreen">;

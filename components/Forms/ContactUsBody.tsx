@@ -4,7 +4,7 @@ import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const ContactUsBody = (props) => {
+const ContactUsBody = (props: any) => {
   const { title, iconName } = props;
   return (
     <TouchableOpacity

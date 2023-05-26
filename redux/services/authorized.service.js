@@ -51,17 +51,6 @@ export const authorizedApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
-    getUser: builder.query({
-      query: (user) => ({
-        url: "/users/me",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Bearer " + user?.access_token,
-        },
-      }),
-
-      providesTags: ["Users"],
-    }),
     postProfileImage: builder.mutation({
       query: (body) => ({
         url: "/users/upload",
@@ -75,6 +64,59 @@ export const authorizedApi = baseApi.injectEndpoints({
         url: `/country/getCountry/${id}`,
       }),
       providesTags: ["Country"],
+    }),
+    getUser: builder.query({
+      query: (user) => ({
+        url: "/users/me",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Bearer " + user?.access_token,
+        },
+      }),
+
+      providesTags: ["Users"],
+    }),
+    getSongsNumber: builder.query({
+      query: (id) => ({
+        url: `/songs/getSongsNumber/${id}`,
+      }),
+      providesTags: ["Songs"],
+    }),
+    addCurrentPlays: builder.mutation({
+      query: (body) => ({
+        url: "/songs/addCurrentPlays",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Songs"],
+    }),
+    addTotalPlays: builder.query({
+      query: (id) => ({
+        url: `/songs/addTotalPlays/${id}`,
+      }),
+      providesTags: ["Songs"],
+    }),
+    getPlaylistNumber: builder.query({
+      query: (id) => ({
+        url: `/playlist/getPlaylistNumber/${id}`,
+      }),
+      providesTags: ["Playlist"],
+    }),
+    deletPlaylist: builder.mutation({
+      query: (body) => ({
+        url: "/playlist/deletePlaylist",
+        method: "DELETE",
+        body,
+      }),
+      invalidatesTags: ["Playlist"],
+    }),
+    deleteSongFromPlaylist: builder.mutation({
+      query: (body) => ({
+        url: "/playlist/deleteSongFromPlaylist",
+        method: "DELETE",
+        body,
+      }),
+      invalidatesTags: ["Playlist"],
     }),
     getGenreById: builder.query({
       query: (id) => ({
@@ -104,6 +146,14 @@ export const authorizedApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: ["Playlist"],
+    }),
+    postAddWallet: builder.mutation({
+      query: (body) => ({
+        url: "/users/addWallet",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Users"],
     }),
     getPlaylistByUserId: builder.query({
       query: () => ({
@@ -152,5 +202,12 @@ export const {
   usePostPlaylistMutation,
   usePostAddToPlaylistMutation,
   useGetPlaylistByIdQuery,
+  usePostAddWalletMutation,
+  useAddCurrentPlaysMutation,
+  useAddTotalPlaysQuery,
+  useDeletPlaylistMutation,
+  useDeleteSongFromPlaylistMutation,
+  useGetPlaylistNumberQuery,
+  useGetSongsNumberQuery,
   useGetUserQuery,
 } = authorizedApi;

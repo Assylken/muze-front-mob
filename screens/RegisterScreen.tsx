@@ -20,6 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Picker } from "@react-native-picker/picker";
 import * as Yup from "yup";
 import { useGetAllCountryQuery } from "../redux/services/authorized.service";
+import Toast from "react-native-toast-message";
 
 type IRegisterScreen = NativeStackScreenProps<
   AuthStackParamList,
@@ -44,6 +45,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { data } = useGetAllCountryQuery(null);
   const [selectedValue, setSelectedValue] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const {
     control,
@@ -61,14 +63,34 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
   });
 
   const onSubmit = async (values: any) => {
-    values.isArtist = isEnabled;
+    values.isArtist = isEnabled ? 1 : 0;
     values.countryId = selectedValue;
-    console.log(values);
-    dispatch(register(values));
+
+    try {
+      await dispatch(register(values)).then((val) => {
+        if (val.payload === undefined) {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: "Incorrect credentials",
+          });
+        } else
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: "Welcome",
+          });
+      });
+    } catch (e) {
+      setErrorMsg("Incorrect credentials");
+      console.log("EEEE", e);
+    }
   };
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
+      <Toast position="top" />
+
       <View
         style={tw`flex-col  pt-10%  pb-3 h-100% bg-[#fff] items-center justify-center`}
       >
@@ -93,7 +115,6 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                     style={tw`w-8 h-8 rounded`}
                     trackColor={{ false: "#767577", true: "#5C25F9" }}
                     thumbColor={isEnabled ? "black" : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch}
                     value={isEnabled}
                   ></Switch>
@@ -120,7 +141,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                 )}
                 name="username"
               />
-              {errors.username ? <View>{errors.username?.message}</View> : null}
+              {errors.username ? <Text>{errors.username?.message}</Text> : null}
               <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -133,6 +154,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                 )}
                 name="email"
               />
+              {errors.email ? <Text>{errors.email?.message}</Text> : null}
 
               <Picker
                 selectedValue={selectedValue}
@@ -141,7 +163,6 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                 }
                 mode="dialog"
                 itemStyle={{ height: 100, width: "100%" }}
-                //style={tw`h-16 flex-col items-center pt-5 rounded-6 border-[#5C25F9] border-2 opacity-40 mt-4 px-4 text-[#5C25F9] font-bold text-base`}
               >
                 {data &&
                   data.map((value: any) => {
@@ -168,7 +189,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                 )}
                 name="password"
               />
-              {errors.password ? <View>{errors.password?.message}</View> : null}
+              {errors.password ? <Text>{errors.password?.message}</Text> : null}
               <TouchableOpacity
                 style={tw`h-16 w-100% justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
                 onPress={handleSubmit(onSubmit)}
