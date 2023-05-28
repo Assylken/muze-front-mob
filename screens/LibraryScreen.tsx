@@ -113,10 +113,10 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
       <Text style={tw`font-bold text-2xl p-5 ml-2`}>Playlists</Text>
       <Toast position="top" />
       <TouchableOpacity
-        style={{ alignSelf: "flex-start", marginLeft: 46 }}
+        style={tw`mr-8 self-end border-2 border-[#5C25F9] rounded-6 px-4 py-2`}
         onPress={() => setModalOpen(true)}
       >
-        <Text>Create Playlist</Text>
+        <Text style={tw`text-[#5C25F9]`}>Create Playlist</Text>
       </TouchableOpacity>
       <FlatList
         style={{ paddingTop: 24 }}
@@ -155,7 +155,7 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
                         <Switch
                           style={tw`w-8 h-8 rounded`}
                           trackColor={{ false: "#767577", true: "#5C25F9" }}
-                          thumbColor={isEnabled ? "black" : "#f4f3f4"}
+                          thumbColor={isEnabled ? "white" : "#f4f3f4"}
                           onValueChange={toggleSwitch}
                           value={isEnabled}
                         ></Switch>
@@ -199,13 +199,13 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
                       )}
                       name="playlist_description"
                     />
-                    <View style={tw`flex-row`}>
+                    <View style={tw`flex-row justify-center`}>
                       <TouchableOpacity
-                        style={tw`h-12 w-1/2 justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
+                        style={tw`h-12 w-1/2 justify-center bg-white items-center px-4 mt-4 border-[#5C25F9] border-2 rounded-6`}
                         onPress={pickImage}
                       >
                         <Text
-                          style={[tw`text-white text-lg font-bold`, shadow]}
+                          style={tw`text-[#5C25F9] text-base font-semibold`}
                         >
                           Pick image
                         </Text>
@@ -216,25 +216,23 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
                         ) : null}
                       </View>
                     </View>
-                    <View style={tw`flex-row`}>
+                    <View style={tw`flex-col`}>
                       <TouchableOpacity
-                        style={tw`h-12 w-1/2 justify-center bg-red-500 items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
-                        onPress={() => setModalOpen(false)}
-                      >
-                        <Text
-                          style={[tw`text-white text-lg font-bold`, shadow]}
-                        >
-                          Cancel
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={tw`h-12 w-1/2 justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
+                        style={tw`h-12 w-full justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
                         onPress={handleSubmit(onSubmit)}
                       >
                         <Text
                           style={[tw`text-white text-lg font-bold`, shadow]}
                         >
                           Create
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={tw`h-12 w-full justify-center bg-white items-center px-4 mt-4 border-gray-400 border-2 rounded-6`}
+                        onPress={() => setModalOpen(false)}
+                      >
+                        <Text style={tw`text-gray-400 text-lg font-bold`}>
+                          Cancel
                         </Text>
                       </TouchableOpacity>
                     </View>

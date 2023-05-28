@@ -7,7 +7,7 @@ const ContactUsBody = (props: any) => {
   const { title, iconName } = props;
   return (
     <TouchableOpacity
-      style={tw`self-center border-2 border-[#EEEEEE] rounded-2xl bg-white w-95% h-17 p-5 mt-6`}
+      style={tw`self-center border-2 justify-center border-[#EEEEEE] rounded-2xl bg-white w-95% h-17 p-5 mt-3`}
     >
       <Text style={tw`font-bold text-4`}>{title}</Text>
       <MaterialCommunityIcons

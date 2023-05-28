@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Stack = createMaterialTopTabNavigator<InfoNavigationStack>();
 
-export default function InfoStack() {
+const InfoStack: FC<IInfoStack> = ({ navigation }) => {
   const tabBarOptions = {
     activeTintColor: "#5C25F9",
     inactiveTintColor: "#9E9E9E",
@@ -53,4 +53,6 @@ export default function InfoStack() {
       </Stack.Navigator>
     </SafeAreaView>
   );
-}
+};
+
+export default InfoStack;

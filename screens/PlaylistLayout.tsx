@@ -100,8 +100,6 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
 
   const handleAudioPress = async (audio: any) => {
     enableAudio();
-    //console.log(audio);
-    //console.log("CUR", soundObj);
 
     if (soundObj.length === 0) {
       console.log("Play");
@@ -190,13 +188,13 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
             }}
           >
             <AntDesign name="arrowleft" size={32} color="black" style={tw``} />
-            <Text style={tw`font-semibold text-2xl ml-2`}>My Library</Text>
+            <Text style={tw`font-semibold text-2xl ml-2`}>My Playlists</Text>
           </TouchableOpacity>
         </View>
         <View style={tw`ml-20 self-center w-1/4`}>
           <DropDownPicker
             style={[
-              tw`text-xl font-semibold`,
+              tw`text-xl font-semibold `,
               {
                 borderWidth: 0,
               },
@@ -222,11 +220,15 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
               ? require("../assets/images/song_placeholder.png")
               : { uri: playlistCover }
           }
-          style={tw`w-36 h-36 rounded-2xl`}
+          style={tw`w-48 h-48 rounded-2xl`}
         />
         <View style={tw`flex-col self-center items-center`}>
-          <Text style={tw`text-2xl font-semibold`}>{playlistName}</Text>
-          <Text style={tw`text-xl font-medium`}>{playlistDesc}</Text>
+          <Text style={tw`text-2xl mt-2 text-[#5C25F9] font-semibold`}>
+            {playlistName}
+          </Text>
+          <Text style={tw`text-sm font-base text-gray-400 px-10`}>
+            {playlistDesc}
+          </Text>
         </View>
       </View>
 

@@ -99,10 +99,7 @@ export const login = createAsyncThunk<
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  //await axios.post("auth/logout");
   AsyncStorage.removeItem("user");
-  //await axios.post(API_URL + "auth/logout");
-
   await authService.logout();
 });
 

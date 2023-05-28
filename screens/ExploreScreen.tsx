@@ -109,14 +109,14 @@ const ExploreScreen = () => {
 
   return (
     <SafeAreaView style={[tw`bg-white p-5 items-center h-100%`]}>
-      <Text style={tw`font-bold text-2xl mt-4 ml-3`}>Explore New Songs</Text>
+      <Text style={tw`font-bold text-2xl mt-5 ml-3`}>Explore New Songs</Text>
       <Toast position="top" />
 
-      <View style={tw`mt-5`}>
+      <View style={tw`mt-4 self-center`}>
         <FlatList
           data={data}
           renderItem={({ item, index }) => (
-            <SafeAreaView style={tw`flex flex-1 bg-white w-93% self-center`}>
+            <SafeAreaView style={tw`flex flex-1 bg-white w-95% self-center`}>
               <Animatable.View
                 animation="fadeInLeft"
                 duration={900}
@@ -168,7 +168,9 @@ const ExploreScreen = () => {
               style={tw`w-12 h-12 rounded-2xl`}
             />
             <View style={{ marginTop: 16 }}>
-              <Text style={tw`text-lg`}>{currentSong && currentSong.name}</Text>
+              <Text style={tw`text-xl font-bold`}>
+                {currentSong && currentSong.name}
+              </Text>
               <Text style={tw`text-lg`}>{!currentSong && "Undefined"}</Text>
             </View>
 
@@ -184,21 +186,21 @@ const ExploreScreen = () => {
                   }
                   console.log("BACK", currentID - 1);
                 }}
-                style={tw`p-2`}
+                style={tw`p-3`}
               >
                 <AntDesign name="banckward" size={22} color="black" />
               </TouchableOpacity>
               {!isPlaying ? (
                 <TouchableOpacity
                   onPress={() => handleAudioPress(currentSong)}
-                  style={tw`p-2`}
+                  style={tw`p-3`}
                 >
                   <FontAwesome name="play" size={24} color="black" />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
                   onPress={() => handleAudioPress(currentSong)}
-                  style={tw`p-2`}
+                  style={tw`p-3`}
                 >
                   <AntDesign name="pause" size={26} color="black" />
                 </TouchableOpacity>

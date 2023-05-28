@@ -92,20 +92,20 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
       <Toast position="top" />
 
       <View
-        style={tw`flex-col  pt-10%  pb-3 h-100% bg-[#fff] items-center justify-center`}
+        style={tw`flex-col pt-12 pb-3 h-100% bg-[#fff] items-center justify-center`}
       >
         <View style={tw`flex-1 items-center`}>
           <View style={tw`flex-1 self-center flex-col`}>
             <Image source={require("../assets/images/logo.png")} style={logo} />
             <Text
-              style={tw`flex-1 text-3xl font-bold self-center pt-10% text-[#586AF6]`}
+              style={tw`flex-1 text-3xl font-bold self-center text-[#586AF6]`}
             >
               Register
             </Text>
           </View>
         </View>
 
-        <View style={tw`flex-1 w-85% mt-20`}>
+        <View style={tw`flex-1 w-85% mt-12`}>
           <View>
             <Controller
               control={control}
@@ -114,11 +114,11 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                   <Switch
                     style={tw`w-8 h-8 rounded`}
                     trackColor={{ false: "#767577", true: "#5C25F9" }}
-                    thumbColor={isEnabled ? "black" : "#f4f3f4"}
+                    thumbColor={isEnabled ? "white" : "#f4f3f4"}
                     onValueChange={toggleSwitch}
                     value={isEnabled}
                   ></Switch>
-                  <Text style={tw`ml-4 font-semibold text-lg text-[#5C25F9] `}>
+                  <Text style={tw`ml-6 text-lg text-[#5C25F9] `}>
                     Register as Artist
                   </Text>
                 </View>
@@ -162,7 +162,7 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
                   setSelectedValue(itemValue)
                 }
                 mode="dialog"
-                itemStyle={{ height: 100, width: "100%" }}
+                itemStyle={tw`h-90px w-full -mb-2 mt-1`}
               >
                 {data &&
                   data.map((value: any) => {
@@ -202,8 +202,8 @@ const RegisterScreen: FC<IRegisterScreen> = ({ navigation }) => {
           </View>
         </View>
 
-        <View style={tw`flex-1 w-85% mt-100`}>
-          <Text style={tw`text-[#ACACAC] font-bold text-base mt-3 self-center`}>
+        <View style={tw`flex-1 w-85% mt-90`}>
+          <Text style={tw`text-[#ACACAC] font-bold mt-3 text-base self-center`}>
             Do you have an Account ?
           </Text>
           <Text
