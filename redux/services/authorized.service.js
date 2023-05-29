@@ -126,7 +126,7 @@ export const authorizedApi = baseApi.injectEndpoints({
     }),
     getUserById: builder.query({
       query: (id) => ({
-        url: `/users/${id}`,
+        url: `/users/getUsername/${id}`,
       }),
       providesTags: ["Users"],
     }),

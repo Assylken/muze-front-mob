@@ -14,7 +14,7 @@ type IContactUsScreen = NativeStackScreenProps<
 
 const ContactUsScreen: FC<IContactUsScreen> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex flex-1 bg-white items-center`}>
+    <SafeAreaView style={tw`flex flex-1 bg-white -mt-2`}>
       <ScrollView style={tw`w-full`}>
         <ContactUsBody title={"Website"} iconName={"web"} />
         <ContactUsBody title={"Instagram"} iconName={"instagram"} />

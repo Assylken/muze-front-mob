@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -49,13 +56,13 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <Toast position="top" />
       <View
-        style={tw`flex-1 pt-10% pb-3 py-8 h-100% bg-[#fff] items-center justify-center`}
+        style={tw`flex-1 pb-3 py-8 h-100% bg-[#fff] items-center justify-center`}
       >
         <View style={tw`flex-1 items-center`}>
           <View style={tw`flex-1 self-center flex-col`}>
             <Image source={require("../assets/images/logo.png")} style={logo} />
             <Text
-              style={tw`flex-1 text-3xl font-bold self-center pt-10% text-[#586AF6]`}
+              style={tw`flex-1 text-3xl font-bold self-center pt-12 text-[#586AF6]`}
             >
               Sign In
             </Text>
@@ -86,7 +93,9 @@ const LoginScreen: FC<ILoginScreen> = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
 
-          <Text style={tw`text-[#ACACAC] font-bold text-base mt-3 self-center`}>
+          <Text
+            style={tw`text-[#ACACAC] pt-8 font-bold text-base mt-3 self-center`}
+          >
             Do not have an Account ?
           </Text>
           <Text

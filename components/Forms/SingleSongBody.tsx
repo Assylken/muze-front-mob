@@ -77,11 +77,11 @@ const SingleSongBody = (props: any) => {
     >
       <Image source={{ uri: cover }} style={tw`w-12 h-12 rounded-2xl`} />
 
-      <View style={tw`flex-col w-full `}>
+      <View style={tw`flex-col w-full self-center`}>
         <View style={tw`flex-row`}>
           <View style={tw`flex-col w-60% pl-5 pb-2`}>
             <Text style={tw`text-base font-semibold`}>{name}</Text>
-            <Text>@{userName}</Text>
+            <Text style={tw`text-[#5C25F9]`}>@{userName}</Text>
           </View>
           <View
             style={[
@@ -96,11 +96,11 @@ const SingleSongBody = (props: any) => {
               ]}
             >
               <AntDesign name="playcircleo" size={14} color="black" />
-              <Text style={tw`ml-2`}>{streams}</Text>
+              <Text style={tw`ml-2 w-16 -mt-0.5`}>{streams}</Text>
             </View>
             <View
               style={[
-                tw`flex ml-4 h-8 w-8`,
+                tw`flex`,
                 { justifyContent: "center", alignSelf: "center" },
               ]}
             >
@@ -140,7 +140,7 @@ const SingleSongBody = (props: any) => {
                             style={tw`pt-2`}
                             onPress={() => handleSubmit(item.id)}
                           >
-                            <Text style={tw`text-xl font-semibold`}>
+                            <Text style={tw`text-xl`}>
                               {index + 1}. {item.playlist_name}
                             </Text>
                           </TouchableOpacity>
@@ -159,7 +159,9 @@ const SingleSongBody = (props: any) => {
                 }}
                 onPress={() => setModalOpen(false)}
               >
-                <Text style={tw`text-xl font-semibold`}>Cancel</Text>
+                <Text style={tw`text-xl font-semibold pb-1 text-[#5C25F9]`}>
+                  Cancel
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -179,10 +181,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    width: "60%",
+    width: "65%",
     height: "50%",
     backgroundColor: "white",
-    borderRadius: 5,
+    borderRadius: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -199,6 +201,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     paddingHorizontal: 24,
+    paddingVertical: 5,
     marginBottom: 15,
     textAlign: "center",
   },

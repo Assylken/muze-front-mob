@@ -9,16 +9,9 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Stack = createMaterialTopTabNavigator<InfoNavigationStack>();
 
-export default function InfoStack() {
-  const tabBarOptions = {
-    activeTintColor: "#5C25F9",
-    inactiveTintColor: "#9E9E9E",
-    indicatorStyle: { backgroundColor: "#5C25F9", height: "7%" },
-    labelStyle: { fontWeight: "bold" },
-  };
-
+const InfoStack: FC<IInfoStack> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex flex-1 bg-white p-5`}>
+    <SafeAreaView style={tw`flex flex-1 bg-white px-4 h-full`}>
       <TouchableOpacity
         style={tw`mt-2 ml-2 flex-row`}
         onPress={() => navigation.navigate("EditProfileScreen")}
@@ -33,7 +26,12 @@ export default function InfoStack() {
       </TouchableOpacity>
       <Stack.Navigator
         style={tw`mt-5`}
-        tabBarOptions={tabBarOptions}
+        screenOptions={{
+          tabBarActiveTintColor: "#5C25F9",
+          tabBarInactiveTintColor: "#9E9E9E",
+          tabBarIndicatorStyle: { backgroundColor: "#5C25F9", height: "7%" },
+          tabBarLabelStyle: { fontWeight: "bold" },
+        }}
         initialRouteName="InfoScreen"
       >
         <Stack.Screen
@@ -53,4 +51,6 @@ export default function InfoStack() {
       </Stack.Navigator>
     </SafeAreaView>
   );
-}
+};
+
+export default InfoStack;

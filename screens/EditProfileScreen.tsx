@@ -75,8 +75,9 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
   }
 
   const dispatch = useAppDispatch();
+
   const logoutFromAccount = async () => {
-    dispatch(logout);
+    dispatch(logout());
   };
 
   const onSubmit = async (values: any) => {
@@ -151,7 +152,7 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex flex-1 flex-col bg-white`}>
       <Toast position="top" />
-      <ScrollView style={tw` w-full`}>
+      <ScrollView style={tw`w-full`}>
         <TouchableOpacity
           style={tw`mt-8 ml-10 flex-row`}
           onPress={() => navigation.navigate("ProfileScreen")}
@@ -166,24 +167,20 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={pickImage} style={tw`items-center mt-4`}>
           <Image
-            source={
-              data.profileImage === "null"
-                ? require("../assets/images/song_placeholder.png")
-                : { uri: data.profileImage }
-            }
+            source={require("../assets/images/camera_placeholder.jpg")}
             style={tw`w-30 h-30 rounded-full`}
           />
           {fileDataImage ? <Text>{fileDataImage.name}</Text> : null}
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onSubmitAvatar}
-          style={tw`h-10 items-center justify-center self-center px-4 py-2 bg-[#5C25F9] border-[#5C25F9] rounded-6`}
+          style={tw`h-12 items-center justify-center self-center px-4 py-2 bg-white border-2 border-[#5C25F9] rounded-6`}
         >
-          <Text style={tw`font-medium text-base  text-white`}>
+          <Text style={tw`font-medium text-base text-[#5C25F9]`}>
             Change Profile photo
           </Text>
         </TouchableOpacity>
-        <View style={tw`px-`}>
+        <View style={tw`px-5`}>
           <View>
             <Controller
               control={control}
@@ -249,14 +246,14 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
               onPress={handleSubmit(onSubmit)}
             >
               <Text style={[tw`text-white text-lg font-bold`, shadow]}>
-                Edit
+                Save
               </Text>
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={tw`flex-col mx-8`}>
-          <View style={tw`flex-row mt-3`}>
+          <View style={tw`flex-row mt-5`}>
             <Feather name="info" size={24} color="#737373" />
             <Text
               style={tw`font-medium text-base text-[#737373] ml-3`}
@@ -265,20 +262,11 @@ const EditProfileScreen: FC<IEditProfileScreen> = ({ navigation }) => {
               Info
             </Text>
           </View>
-          <View style={tw`flex-row mt-3`}>
-            <Ionicons name="settings-outline" size={24} color="#737373" />
-            <Text
-              style={tw`font-medium text-base text-[#737373] ml-3`}
-              onPress={() => navigation.navigate("SettingsScreen")}
-            >
-              Settings
-            </Text>
-          </View>
-          <View style={tw`flex-row mt-3`}>
+          <View style={tw`flex-row mt-2`}>
             <AntDesign name="logout" size={24} color="#5C25F9" />
             <Text
               style={tw`font-medium text-base text-[#5C25F9] ml-3`}
-              onPress={logoutFromAccount}
+              onPress={() => logoutFromAccount()}
             >
               Log out
             </Text>

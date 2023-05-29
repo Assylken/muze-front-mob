@@ -68,7 +68,7 @@ const SinglePlaylistSongBody = (props: any) => {
         <View style={tw`flex-row`}>
           <View style={tw`flex-col w-60% pl-5 pb-2`}>
             <Text style={tw`text-base font-semibold`}>{name}</Text>
-            <Text>@{userName}</Text>
+            <Text style={tw`text-[#5C25F9]`}>@{userName}</Text>
           </View>
           <View
             style={[
@@ -83,11 +83,11 @@ const SinglePlaylistSongBody = (props: any) => {
               ]}
             >
               <AntDesign name="playcircleo" size={14} color="black" />
-              <Text style={tw`ml-2`}>{streams}</Text>
+              <Text style={tw`ml-2 w-16 -mt-0.5`}>{streams}</Text>
             </View>
             <View
               style={[
-                tw`flex ml-4 h-8 w-8`,
+                tw`flex`,
                 { justifyContent: "center", alignSelf: "center" },
               ]}
             >
@@ -112,19 +112,19 @@ const SinglePlaylistSongBody = (props: any) => {
               <Text style={styles.modalText}>Delete this song?</Text>
               <View style={tw`flex-row px-6`}>
                 <TouchableOpacity
-                  style={tw`h-10 w-1/2 justify-center bg-red-500 items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
-                  onPress={() => setModalOpen(false)}
+                  onPress={() => deleteSongFromPlaylistHandler()}
+                  style={tw`h-10 ml-2 w-1/2 justify-center bg-white items-center px-4 mx-2 mt-4 border-red-500 border-2 rounded-6`}
                 >
-                  <Text style={tw`text-xl text-white font-semibold`}>
-                    Cancel
+                  <Text style={tw`text-lg text-red-500 font-semibold`}>
+                    Delete
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => deleteSongFromPlaylistHandler()}
-                  style={tw`h-10 ml-2 w-1/2 justify-center bg-[#5C25F9] items-center px-4 mt-4 border-[#5C25F9] rounded-6`}
+                  style={tw`h-10 w-1/2 justify-center bg-white items-center px-4 mt-4 border-gray-400 border-2 rounded-6`}
+                  onPress={() => setModalOpen(false)}
                 >
-                  <Text style={tw`text-xl text-white font-semibold`}>
-                    Delete
+                  <Text style={tw`text-lg text-gray-400 font-semibold`}>
+                    Cancel
                   </Text>
                 </TouchableOpacity>
               </View>
