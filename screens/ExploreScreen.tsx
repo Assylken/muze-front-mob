@@ -32,7 +32,6 @@ const ExploreScreen = () => {
 
   const countCurrent = async (value: any) => {
     console.log("ALAOOAOAOA", value);
-
     addCurrentPlays({ songId: value.id, plays: 1 });
   };
 
@@ -45,8 +44,6 @@ const ExploreScreen = () => {
   };
   const handleAudioPress = async (audio: any) => {
     enableAudio();
-    //console.log(audio);
-    //console.log("CUR", soundObj);
 
     if (soundObj.length === 0) {
       console.log("Play");
