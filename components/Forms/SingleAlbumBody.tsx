@@ -2,9 +2,10 @@ import { Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import tw from "twrnc";
 const SingleAlbumBody = (props: any) => {
-  const { cover, name, description, id, navigation } = props;
+  const { myKey, cover, name, description, id, navigation } = props;
   return (
     <TouchableOpacity
+      key={myKey}
       onPress={() =>
         navigation.navigate("PlaylistLayout", {
           playlistID: id,

@@ -172,7 +172,8 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
   const { div } = styles;
   let sz = 0;
   if (songs) sz = Object.keys(songs).length;
-
+  LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   return (
     <SafeAreaView
       key={playlistID}
@@ -241,7 +242,10 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
         <FlatList
           data={songs}
           renderItem={({ item, index }) => (
-            <SafeAreaView style={tw`flex flex-1 bg-white w-93% self-center`}>
+            <SafeAreaView
+              key={index}
+              style={tw`flex flex-1 bg-white w-93% self-center`}
+            >
               <Animatable.View
                 animation="fadeInLeft"
                 duration={900}
@@ -249,12 +253,10 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
               >
                 <SinglePlaylistSongBody
                   onAudioPress={() => {
-                    console.log("SZ_ID", sz - item.song.id);
-
-                    setCurrentID(sz - item.song.id);
+                    setCurrentID(index);
                     handleAudioPress(item);
                   }}
-                  key={item.song.id}
+                  myKey={index}
                   song_id={item.song.id}
                   playlistId={playlistID}
                   cover={`https://chris-anatalio.infura-ipfs.io/ipfs/${item.song.image_cid}`}
@@ -340,6 +342,8 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
                       setCurrentID(0);
                       handleAudioPress(songs[0]);
                     } else {
+                      console.log("SITUAION", currentID + 1, sz);
+
                       setCurrentID((prevState) => prevState + 1);
                       handleAudioPress(songs[currentID + 1]);
                     }

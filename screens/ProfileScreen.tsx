@@ -13,6 +13,7 @@ import {
   useGetUserQuery,
 } from "../redux/services/authorized.service";
 import Toast from "react-native-toast-message";
+import { LogBox } from "react-native";
 
 type IProfileScreen = NativeStackScreenProps<
   MainStackParamList,
@@ -25,7 +26,8 @@ const ProfileScreen: FC<IProfileScreen> = ({ navigation }) => {
   const { data: getSongNumber = {} } = useGetSongsNumberQuery(data.id);
 
   const { user } = useAppSelector((state: any) => state.auth);
-
+  LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   try {
     const { data } = useGetUserQuery(user);
     useEffect(() => {

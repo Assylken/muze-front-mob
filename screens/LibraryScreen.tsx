@@ -110,7 +110,6 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
     reset();
     setFileDataImage(null);
   };
-  console.disableYellowBox = true;
   return (
     <SafeAreaView style={tw`self-center bg-white w-100% h-100% items-center`}>
       <Text style={tw`font-bold text-2xl p-5 ml-2`}>Playlists</Text>
@@ -126,13 +125,14 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
         data={data}
         numColumns={2}
         renderItem={({ item, index }) => (
-          <View style={tw`flex bg-white self-center px-1 py-6`}>
+          <View key={index} style={tw`flex bg-white self-center px-1 py-6`}>
             <Animatable.View
               animation="fadeInUp"
               duration={900}
               delay={index * 90}
             >
               <SingleAlbumBody
+                myKey={index}
                 navigation={navigation}
                 cover={item.playlist_avatar}
                 name={item.playlist_name}

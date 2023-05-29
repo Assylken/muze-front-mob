@@ -18,8 +18,16 @@ import {
 } from "../../redux/services/authorized.service";
 
 const SinglePlaylistSongBody = (props: any) => {
-  const { cover, name, artistId, streams, song_id, playlistId, onAudioPress } =
-    props;
+  const {
+    myKey,
+    cover,
+    name,
+    artistId,
+    streams,
+    song_id,
+    playlistId,
+    onAudioPress,
+  } = props;
   const { data: userId = {} } = useGetUserByIdQuery(artistId);
 
   const [userName, setUserName] = useState("");
@@ -59,7 +67,7 @@ const SinglePlaylistSongBody = (props: any) => {
   return (
     <TouchableOpacity
       onPress={onAudioPress}
-      key={song_id}
+      key={myKey}
       style={tw`flex-row mt-2`}
     >
       <Image source={{ uri: cover }} style={tw`w-12 h-12 rounded-2xl`} />

@@ -16,10 +16,11 @@ import {
   useAddCurrentPlaysMutation,
   useGetAllSongsQuery,
 } from "../redux/services/authorized.service";
-import { Audio } from "expo-av";
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { play, pause, resume, playNext } from "../controller/AudioController";
+import { LogBox } from "react-native";
 
 const ExploreScreen = () => {
   const { data } = useGetAllSongsQuery(null);
@@ -39,7 +40,11 @@ const ExploreScreen = () => {
     await Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
       staysActiveInBackground: false,
-      shouldDuckAndroid: false,
+      shouldDuckAndroid: true,
+      allowsRecordingIOS: false,
+      interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+      interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+      playThroughEarpieceAndroid: false,
     });
   };
   const handleAudioPress = async (audio: any) => {
@@ -103,7 +108,8 @@ const ExploreScreen = () => {
   const { div } = styles;
   let sz = 0;
   if (data) sz = Object.keys(data).length;
-
+  LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   return (
     <SafeAreaView style={[tw`bg-white p-5 items-center h-100%`]}>
       <Text style={tw`font-bold text-2xl mt-5 ml-3`}>Explore New Songs</Text>
@@ -178,8 +184,10 @@ const ExploreScreen = () => {
                     setCurrentID(0);
                     handleAudioPress(data[0]);
                   } else {
-                    setCurrentID((prevState) => prevState - 1);
-                    handleAudioPress(data[currentID - 1]);
+                    if (currentID - 1 >= 0 && currentID - 1 <= sz) {
+                      setCurrentID((prevState) => prevState - 1);
+                      handleAudioPress(data[currentID - 1]);
+                    }
                   }
                   console.log("BACK", currentID - 1);
                 }}
@@ -208,8 +216,10 @@ const ExploreScreen = () => {
                     setCurrentID(0);
                     handleAudioPress(data[0]);
                   } else {
-                    setCurrentID((prevState) => prevState + 1);
-                    handleAudioPress(data[currentID + 1]);
+                    if (currentID + 1 <= sz && currentID + 1 >= 0) {
+                      setCurrentID((prevState) => prevState + 1);
+                      handleAudioPress(data[currentID + 1]);
+                    }
                   }
                   console.log("Front", currentID + 1);
                 }}
