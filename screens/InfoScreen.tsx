@@ -12,7 +12,7 @@ type IInfoScreen = NativeStackScreenProps<InfoNavigationStack, "InfoScreen">;
 const InfoScreen: FC<IInfoScreen> = ({ navigation }) => {
   return (
     <SafeAreaView style={tw`flex flex-1 bg-white items-center`}>
-      <ScrollView style={tw`w-full -mt-2`}>
+      <ScrollView style={tw`w-full h-full -mt-2`}>
         <CollapsableBody
           title={"What is Muze?"}
           mainText={

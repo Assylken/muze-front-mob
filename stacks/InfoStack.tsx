@@ -11,7 +11,7 @@ const Stack = createMaterialTopTabNavigator<InfoNavigationStack>();
 
 const InfoStack: FC<IInfoStack> = ({ navigation }) => {
   return (
-    <SafeAreaView style={tw`flex flex-1 bg-white p-5`}>
+    <SafeAreaView style={tw`flex flex-1 bg-white px-4 h-full`}>
       <TouchableOpacity
         style={tw`mt-2 ml-2 flex-row`}
         onPress={() => navigation.navigate("EditProfileScreen")}

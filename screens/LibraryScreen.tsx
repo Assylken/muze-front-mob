@@ -27,6 +27,9 @@ import {
 } from "../redux/services/authorized.service";
 import Toast from "react-native-toast-message";
 import * as DocumentPicker from "expo-document-picker";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Warning: ..."]);
 
 type ILibraryScreen = NativeStackScreenProps<
   PlaylistNavigationStackList,
@@ -107,7 +110,7 @@ const LibraryScreen: FC<ILibraryScreen> = ({ navigation }) => {
     reset();
     setFileDataImage(null);
   };
-
+  console.disableYellowBox = true;
   return (
     <SafeAreaView style={tw`self-center bg-white w-100% h-100% items-center`}>
       <Text style={tw`font-bold text-2xl p-5 ml-2`}>Playlists</Text>

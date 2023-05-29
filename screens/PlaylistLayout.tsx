@@ -26,6 +26,9 @@ import Toast from "react-native-toast-message";
 import { play, pause, resume, playNext } from "../controller/AudioController";
 import DropDownPicker from "react-native-dropdown-picker";
 import SinglePlaylistSongBody from "../components/Forms/SinglePlaylistSongBody";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Warning: ..."]);
 
 type ILibraryScreen = NativeStackScreenProps<
   PlaylistNavigationStackList,

@@ -96,11 +96,11 @@ const SingleSongBody = (props: any) => {
               ]}
             >
               <AntDesign name="playcircleo" size={14} color="black" />
-              <Text style={tw`ml-2 w-5 -mt-0.5`}>{streams}</Text>
+              <Text style={tw`ml-2 w-16 -mt-0.5`}>{streams}</Text>
             </View>
             <View
               style={[
-                tw`flex ml-4 h-8 w-8`,
+                tw`flex`,
                 { justifyContent: "center", alignSelf: "center" },
               ]}
             >
