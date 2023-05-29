@@ -226,7 +226,7 @@ const PlaylistLayout: FC<ILibraryScreen> = ({ route, navigation }) => {
           <Text style={tw`text-2xl mt-2 text-[#5C25F9] font-semibold`}>
             {playlistName}
           </Text>
-          <Text style={tw`text-sm font-base text-gray-400 px-10`}>
+          <Text style={tw`text-sm font-medium text-gray-400 px-10`}>
             {playlistDesc}
           </Text>
         </View>
